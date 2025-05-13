@@ -1,14 +1,80 @@
+import React, { useState } from "react";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { LABEL_MAP } from "../data/questions";
 
-import React from 'react';
-import {useSortable} from '@dnd-kit/sortable';
-import {CSS} from '@dnd-kit/utilities';
+export default function SortableMascot({ id, src, rank }) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
+    useSortable({ 
+      id,
+      transition: {
+        duration: 200,
+        easing: 'ease'
+      }
+    });
+    
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition: transition ? CSS.Transition.toString(transition) : undefined,
+    zIndex: isDragging ? 100 : undefined
+  };
 
-export default function SortableMascot({id,src,rank}){
- const {attributes,listeners,setNodeRef,transform,transition,isDragging}=useSortable({id});
- const style={transform:CSS.Transform.toString(transform),transition,opacity:isDragging?0.6:1};
- return(<div ref={setNodeRef} style={style} {...attributes}{...listeners} className="bg-white rounded-xl shadow p-4 flex items-center space-x-4 cursor-grab">
-  <span className="font-bold w-6 text-center">{rank}</span>
-  <img src={src} alt={id} className="w-16 h-16 object-contain"/>
-  <span className="text-gray-700 flex-1">{id.replace(/[-_]/g,' ')}</span>
- </div>);
+  /* label via bestandsnaam (topic-type.png) */
+  const type = id.split("-")[1].replace(".png", "");
+  const label = LABEL_MAP[type] ?? "Mascotte";
+
+  /* éénmalige fallback */
+  const [fallback, setFallback] = useState(false);
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className={`
+        relative bg-white rounded-lg shadow-sm
+        flex items-center sm:flex-col gap-2 p-3
+        w-full sm:w-52 border border-gray-100
+        transition-shadow duration-200
+        ${isDragging ? 'shadow-lg' : 'hover:shadow-md'}
+        touch-none
+      `}
+    >
+      {/* nummer-badge */}
+      <span
+        className="
+          absolute -top-2 -left-2 bg-blue-600 text-white
+          w-6 h-6 flex items-center justify-center
+          rounded-full text-sm font-medium shadow-sm
+        "
+      >
+        {rank}
+      </span>
+
+      {/* afbeelding */}
+      <div
+        className="
+          w-16 h-16
+          sm:w-full sm:h-40
+          bg-gray-50 flex items-center justify-center 
+          rounded-lg overflow-hidden
+          border border-gray-100
+        "
+      >
+        <img
+          src={fallback ? "/mascots/missing.png" : src}
+          alt={label}
+          className="w-full h-full object-contain p-2"
+          onError={() => setFallback(true)}
+          draggable={false}
+        />
+      </div>
+
+      {/* label */}
+      <span className="text-sm sm:text-base font-medium truncate sm:mt-1 text-gray-700">
+        {label}
+      </span>
+    </div>
+  );
 }

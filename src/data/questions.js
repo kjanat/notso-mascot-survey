@@ -1,5 +1,5 @@
 export const CHARACTER_TYPES = ["man", "woman", "animal", "blob", "robot"];
-export const STYLE_TYPES = ["realistic", "pixar", "designertoy", "calarts", "memphis"];
+export const STYLE_TYPES = ["realistic", "pixar", "cartoony", "figurative", "toy"];
 
 export const TOPICS = [
   "sales_type",
@@ -33,7 +33,7 @@ export const LABEL_MAP = {
   // Style types
   realistic: "Realistisch",
   pixar: "Pixar-stijl",
-  designertoy: "Designer Toy",
-  calarts: "CalArts-stijl",
-  memphis: "Memphis-stijl",
+  cartoony: "Cartoony-stijl",
+  figurative: "Figuratief",
+  toy: "Toy-stijl",
 };

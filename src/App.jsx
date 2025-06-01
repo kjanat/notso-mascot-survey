@@ -15,21 +15,7 @@ import { QUESTIONS } from "./data/questions";
 import SortableMascot from "./components/SortableMascot";
 import CaptchaVerification from "./components/CaptchaVerification";
 import { hasUserSubmitted, markAsSubmitted } from "./utils/submissionTracker";
-
-const CONTEXT = {
-  sales_type: "Welke mascotte mag jouw stylist zijn voor één dag?",
-  friend_type: "Welke mascotte zou jij kiezen als digitale vriend(in)?",
-  coach_type: "Met welke mascotte zou jij het liefst zwetend in de sportschool staan?",
-  support_type: "Je pakketje is kwijt. Wie van deze mascottes wil jij in de klantenservice-chat zien?",
-  mental_type: "Tijdens een korte oefening kijk je naar een mascotte op je telefoon. Welke zie jij het liefst?",
-  hr_type: "Welke mascotte wil jij als digitale buddy op je eerste werkdag?",
-  sales_style: "Stel: je zoekt sneakers in een app. Welke van deze mascottes zie jij het liefst verschijnen?",
-  friend_style: "Deze mascottes sturen je dagelijks een berichtje. Welke voelt het leukst om te zien?",
-  coach_style: "Welke mascotte wil jij als sportmaatje in een trainingsapp?",
-  support_style: "Wie van deze mascottes wil jij zien als je hulp nodig hebt in een webshop?",
-  mental_style: "Tijdens een meditatiesessie verschijnt één mascotte op je scherm. Naar wie kijk jij het liefst?",
-  hr_style: "Welke van deze mascottes zie jij graag verschijnen bij je eerste werkdag?",
-};
+import { translations } from "./data/translations";
 
 export default function App() {
   const [isMobile, setIsMobile] = React.useState(window.innerWidth <= 639);
@@ -41,6 +27,20 @@ export default function App() {
   const [order, setOrder] = useState([]);
   const [form, setForm] = useState({ age: "", gender: "", education: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [lang, setLang] = useState("nl");
+  const t = translations[lang];
+
+  // Language selector component
+  const LanguageSelector = () => (
+    <select
+      value={lang}
+      onChange={(e) => setLang(e.target.value)}
+      className="absolute top-4 right-4 p-2 border rounded bg-white"
+    >
+      <option value="nl">Nederlands</option>
+      <option value="en">English</option>
+    </select>
+  );
 
   // Check if user has already submitted when component mounts
   useEffect(() => {
@@ -122,11 +122,10 @@ export default function App() {
   if (hasSubmitted || submitted) {
     return (
       <div className="p-8 text-center space-y-4">
-        <div className="text-xl">Je hebt deze enquête al ingevuld.</div>
-        <div className="text-gray-600">
-          Het is niet mogelijk om de enquête meerdere keren in te vullen.
-        </div>
-        <div className="text-gray-600">Bedankt voor je deelname! 🎉</div>
+        <LanguageSelector />
+        <div className="text-xl">{t.alreadySubmitted}</div>
+        <div className="text-gray-600">{t.noMultiple}</div>
+        <div className="text-gray-600">{t.thanks}</div>
       </div>
     );
   }
@@ -134,7 +133,8 @@ export default function App() {
   if (!isVerified) {
     return (
       <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 text-center space-y-6">
-        <h1 className="text-3xl font-bold">Mascotte‑Survey</h1>
+        <LanguageSelector />
+        <h1 className="text-3xl font-bold">{t.title}</h1>
         <CaptchaVerification onVerify={setIsVerified} />
       </div>
     );
@@ -143,32 +143,25 @@ export default function App() {
   if (submitted)
     return (
       <div className="p-8 text-center text-xl">
-        Bedankt voor je deelname! 🎉
+        <LanguageSelector />
+        {t.thanks}
       </div>
     );
+
   if (step === "intro")
     return (
       <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 text-center space-y-6">
-        <h1 className="text-3xl font-bold">Mascotte‑Survey</h1>
-        <p className="text-gray-700">
-          👋 Welkom en bedankt dat je meedoet! Deze korte en interactieve
-          enquête bestaat uit 12 vragen. Bij elke vraag zie je 5 mascottes.
-          Sleep ze in de volgorde die voor jou het meest logisch voelt — van 1
-          (meest passend) tot 5. Niet te lang over nadenken: vertrouw op je
-          eerste indruk!
-        </p>
+        <LanguageSelector />
+        <h1 className="text-3xl font-bold">{t.title}</h1>
+        <p className="text-gray-700">{t.welcome}</p>
 
         <div className="max-w-2xl mx-auto bg-gray-50 p-4 rounded-lg text-left text-sm text-gray-600">
-          <h2 className="font-bold mb-2">Privacy Verklaring</h2>
-          <p className="mb-4">
-            Door deel te nemen aan deze enquête ga je akkoord met het volgende:
-          </p>
+          <h2 className="font-bold mb-2">{t.privacyTitle}</h2>
+          <p className="mb-4">{t.privacyIntro}</p>
           <ul className="list-disc list-inside space-y-2 mb-4">
-            <li>We verzamelen je antwoorden op de enquêtevragen</li>
-            <li>We slaan basis demografische gegevens op (leeftijd, geslacht, opleiding)</li>
-            <li>We gebruiken een browser fingerprint om dubbele inzendingen te voorkomen</li>
-            <li>Je gegevens worden anoniem verwerkt en alleen voor onderzoeksdoeleinden gebruikt</li>
-            <li>Je kunt maar één keer deelnemen aan deze enquête</li>
+            {t.privacyPoints.map((point, index) => (
+              <li key={index}>{point}</li>
+            ))}
           </ul>
           <div className="flex items-start gap-2 mt-4">
             <input
@@ -178,9 +171,7 @@ export default function App() {
               checked={privacyConsent}
               onChange={(e) => setPrivacyConsent(e.target.checked)}
             />
-            <label htmlFor="privacy-consent">
-              Ik ga akkoord met het verzamelen en verwerken van mijn gegevens zoals hierboven beschreven
-            </label>
+            <label htmlFor="privacy-consent">{t.privacyConsent}</label>
           </div>
         </div>
 
@@ -189,21 +180,21 @@ export default function App() {
           disabled={!privacyConsent}
           className="bg-green-600 text-white py-3 px-8 rounded hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
-          Start
+          {t.startButton}
         </button>
       </div>
     );
+
   if (step === "form")
     return (
       <div className="max-w-md mx-auto p-8 space-y-4">
-        <h2 className="text-2xl font-semibold text-center">
-          Nog een paar vragen 🙂
-        </h2>
+        <LanguageSelector />
+        <h2 className="text-2xl font-semibold text-center">{t.finalQuestions}</h2>
         <input
           type="number"
           min="1"
           max="99"
-          placeholder="Leeftijd"
+          placeholder={t.age}
           className="w-full p-3 border rounded"
           value={form.age}
           onInput={(e) => {
@@ -216,43 +207,41 @@ export default function App() {
           defaultValue=""
           onChange={(e) => setForm({ ...form, gender: e.target.value })}
         >
-          <option value="" disabled>
-            Geslacht
-          </option>
-          <option>Man</option>
-          <option>Vrouw</option>
-          <option>Anders</option>
+          <option value="" disabled>{t.genderOptions.placeholder}</option>
+          <option>{t.genderOptions.male}</option>
+          <option>{t.genderOptions.female}</option>
+          <option>{t.genderOptions.other}</option>
         </select>
         <select
           className="w-full p-3 border rounded"
           defaultValue=""
           onChange={(e) => setForm({ ...form, education: e.target.value })}
         >
-          <option value="" disabled>
-            Hoogst behaalde Opleiding
-          </option>
-          <option>Basisonderwijs</option>
-          <option>VMBO/MBO</option>
-          <option>HAVO</option>
-          <option>VWO</option>
-          <option>HBO</option>
-          <option>WO</option>
+          <option value="" disabled>{t.educationOptions.placeholder}</option>
+          <option>{t.educationOptions.primary}</option>
+          <option>{t.educationOptions.vmbo}</option>
+          <option>{t.educationOptions.havo}</option>
+          <option>{t.educationOptions.vwo}</option>
+          <option>{t.educationOptions.hbo}</option>
+          <option>{t.educationOptions.uni}</option>
         </select>
         <button
           disabled={!form.age || !form.gender || !form.education}
           onClick={submit}
           className="w-full py-3 rounded text-white disabled:bg-gray-400 bg-blue-600 hover:bg-blue-700"
         >
-          Versturen
+          {t.submitButton}
         </button>
       </div>
     );
+
   const q = QUESTIONS[step];
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 space-y-6">
-      <h1 className="text-2xl font-bold">{CONTEXT[q.id]}</h1>
+      <LanguageSelector />
+      <h1 className="text-2xl font-bold">{t.questions[q.id]}</h1>
       <p className="text-sm text-gray-600">
-        Sleep om te rangschikken: <strong>1 = beste</strong>
+        {t.dragInstructions}
       </p>
       <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
         <SortableContext
@@ -279,13 +268,13 @@ export default function App() {
           disabled={step === 0}
           className="bg-gray-300 px-4 py-2 rounded disabled:opacity-50"
         >
-          Terug
+          {t.backButton}
         </button>
         <button
           onClick={next}
           className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
         >
-          {step < QUESTIONS.length - 1 ? "Volgende" : "Achtergrondvragen"}
+          {step < QUESTIONS.length - 1 ? t.nextButton : t.backgroundQuestions}
         </button>
       </div>
     </div>

@@ -8,15 +8,18 @@ export default function SortableMascot({ id, src, rank }) {
     useSortable({ 
       id,
       transition: {
-        duration: 200,
-        easing: 'ease'
-      }
+        duration: 300,
+        easing: 'cubic-bezier(0.25, 1, 0.5, 1)'
+      },
+      animateLayoutChanges: () => true
     });
     
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition: transition ? CSS.Transition.toString(transition) : undefined,
-    zIndex: isDragging ? 100 : undefined
+    transition: transition ? CSS.Transition.toString({ ...transition, easing: 'cubic-bezier(0.25, 1, 0.5, 1)' }) : undefined,
+    zIndex: isDragging ? 100 : 1,
+    position: 'relative',
+    transformOrigin: '0 0'
   };
 
   /* label via bestandsnaam (topic-type.png) */

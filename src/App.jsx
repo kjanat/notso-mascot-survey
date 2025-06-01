@@ -13,6 +13,8 @@ import {
 } from "@dnd-kit/sortable";
 import { QUESTIONS } from "./data/questions";
 import SortableMascot from "./components/SortableMascot";
+import CaptchaVerification from "./components/CaptchaVerification";
+import { hasUserSubmitted, markAsSubmitted } from "./utils/submissionTracker";
 
 const CONTEXT = {
   sales: "Welke mascotte mag jouw stylist zijn voor één dag?",
@@ -32,11 +34,30 @@ const CONTEXT = {
 
 export default function App() {
   const [isMobile, setIsMobile] = React.useState(window.innerWidth <= 639);
-  React.useEffect(() => {
-    const h = () => setIsMobile(window.innerWidth <= 639);
-    window.addEventListener("resize", h);
-    return () => window.removeEventListener("resize", h);
+  const [isVerified, setIsVerified] = React.useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [privacyConsent, setPrivacyConsent] = useState(false);
+  const [step, setStep] = useState("intro");
+  const [answers, setAnswers] = useState({});
+  const [order, setOrder] = useState([]);
+  const [form, setForm] = useState({ age: "", gender: "", education: "" });
+  const [submitted, setSubmitted] = useState(false);
+
+  // Check if user has already submitted when component mounts
+  useEffect(() => {
+    const checkSubmission = async () => {
+      const submitted = await hasUserSubmitted();
+      setHasSubmitted(submitted);
+    };
+    checkSubmission();
   }, []);
+
+  useEffect(() => {
+    if (typeof step === "number") {
+      const qid = QUESTIONS[step].id;
+      setOrder(answers[qid] ?? QUESTIONS[step].options);
+    }
+  }, [step]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -51,19 +72,6 @@ export default function App() {
       },
     })
   );
-
-  const [step, setStep] = useState("intro");
-  const [answers, setAnswers] = useState({});
-  const [order, setOrder] = useState([]);
-  const [form, setForm] = useState({ age: "", gender: "", education: "" });
-  const [submitted, setSubmitted] = useState(false);
-
-  useEffect(() => {
-    if (typeof step === "number") {
-      const qid = QUESTIONS[step].id;
-      setOrder(answers[qid] ?? QUESTIONS[step].options);
-    }
-  }, [step]);
 
   function handleDragEnd(e) {
     const { active, over } = e;
@@ -96,14 +104,41 @@ export default function App() {
       })
     );
     const payload = {
-      data: { ...form, ...orderStrings, timestamp: new Date().toISOString() },
+      data: {
+        ...form,
+        ...orderStrings,
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent,
+      },
     };
     await fetch("https://sheetdb.io/api/v1/h1bwcita99si3", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
+    await markAsSubmitted();
     setSubmitted(true);
+  }
+
+  if (hasSubmitted || submitted) {
+    return (
+      <div className="p-8 text-center space-y-4">
+        <div className="text-xl">Je hebt deze enquête al ingevuld.</div>
+        <div className="text-gray-600">
+          Het is niet mogelijk om de enquête meerdere keren in te vullen.
+        </div>
+        <div className="text-gray-600">Bedankt voor je deelname! 🎉</div>
+      </div>
+    );
+  }
+
+  if (!isVerified) {
+    return (
+      <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 text-center space-y-6">
+        <h1 className="text-3xl font-bold">Mascotte‑Survey</h1>
+        <CaptchaVerification onVerify={setIsVerified} />
+      </div>
+    );
   }
 
   if (submitted)
@@ -123,9 +158,37 @@ export default function App() {
           (meest passend) tot 5. Niet te lang over nadenken: vertrouw op je
           eerste indruk!
         </p>
+
+        <div className="max-w-2xl mx-auto bg-gray-50 p-4 rounded-lg text-left text-sm text-gray-600">
+          <h2 className="font-bold mb-2">Privacy Verklaring</h2>
+          <p className="mb-4">
+            Door deel te nemen aan deze enquête ga je akkoord met het volgende:
+          </p>
+          <ul className="list-disc list-inside space-y-2 mb-4">
+            <li>We verzamelen je antwoorden op de enquêtevragen</li>
+            <li>We slaan basis demografische gegevens op (leeftijd, geslacht, opleiding)</li>
+            <li>We gebruiken een browser fingerprint om dubbele inzendingen te voorkomen</li>
+            <li>Je gegevens worden anoniem verwerkt en alleen voor onderzoeksdoeleinden gebruikt</li>
+            <li>Je kunt maar één keer deelnemen aan deze enquête</li>
+          </ul>
+          <div className="flex items-start gap-2 mt-4">
+            <input
+              type="checkbox"
+              id="privacy-consent"
+              className="mt-1"
+              checked={privacyConsent}
+              onChange={(e) => setPrivacyConsent(e.target.checked)}
+            />
+            <label htmlFor="privacy-consent">
+              Ik ga akkoord met het verzamelen en verwerken van mijn gegevens zoals hierboven beschreven
+            </label>
+          </div>
+        </div>
+
         <button
           onClick={() => setStep(0)}
-          className="bg-green-600 text-white py-3 px-8 rounded hover:bg-green-700"
+          disabled={!privacyConsent}
+          className="bg-green-600 text-white py-3 px-8 rounded hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
           Start
         </button>
@@ -192,13 +255,12 @@ export default function App() {
       <p className="text-sm text-gray-600">
         Sleep om te rangschikken: <strong>1 = beste</strong>
       </p>
-      <DndContext 
-        sensors={sensors} 
-        onDragEnd={handleDragEnd}
-      >
+      <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
         <SortableContext
           items={order}
-          strategy={isMobile ? verticalListSortingStrategy : rectSortingStrategy}
+          strategy={
+            isMobile ? verticalListSortingStrategy : rectSortingStrategy
+          }
         >
           <div className="flex flex-col gap-2 sm:grid sm:grid-cols-5 sm:gap-4">
             {order.map((file, idx) => (

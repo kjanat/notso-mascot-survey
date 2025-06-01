@@ -4,22 +4,21 @@ import { CSS } from "@dnd-kit/utilities";
 import { LABEL_MAP } from "../data/questions";
 
 export default function SortableMascot({ id, src, rank }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-    useSortable({ 
-      id,
-      transition: {
-        duration: 300,
-        easing: 'cubic-bezier(0.25, 1, 0.5, 1)'
-      },
-      animateLayoutChanges: () => true
-    });
-    
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging
+  } = useSortable({
+    id
+  });
+
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition: transition ? CSS.Transition.toString({ ...transition, easing: 'cubic-bezier(0.25, 1, 0.5, 1)' }) : undefined,
-    zIndex: isDragging ? 100 : 1,
-    position: 'relative',
-    transformOrigin: '0 0'
+    transition,
+    zIndex: isDragging ? 2 : 1
   };
 
   /* label via bestandsnaam (topic-type.png) */
@@ -39,9 +38,8 @@ export default function SortableMascot({ id, src, rank }) {
         relative bg-white rounded-lg shadow-sm
         flex items-center sm:flex-col gap-2 p-3
         w-full sm:w-52 border border-gray-100
-        transition-shadow duration-200
         ${isDragging ? 'shadow-lg' : 'hover:shadow-md'}
-        touch-none
+        touch-none cursor-grab
       `}
     >
       {/* nummer-badge */}

@@ -66,8 +66,8 @@ export default function App() {
     }),
     useSensor(TouchSensor, {
       activationConstraint: {
-        delay: 200,
-        tolerance: 8,
+        delay: 250,
+        tolerance: 5,
       },
     })
   );
@@ -243,14 +243,15 @@ export default function App() {
       <p className="text-sm text-gray-600">
         {t.dragInstructions}
       </p>
-      <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+      <DndContext 
+        sensors={sensors}
+        onDragEnd={handleDragEnd}
+      >
         <SortableContext
           items={order}
-          strategy={
-            isMobile ? verticalListSortingStrategy : rectSortingStrategy
-          }
+          strategy={rectSortingStrategy}
         >
-          <div className="flex flex-col gap-2 sm:grid sm:grid-cols-5 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
             {order.map((file, idx) => (
               <SortableMascot
                 key={file}

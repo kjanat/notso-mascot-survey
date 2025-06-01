@@ -17,19 +17,18 @@ import CaptchaVerification from "./components/CaptchaVerification";
 import { hasUserSubmitted, markAsSubmitted } from "./utils/submissionTracker";
 
 const CONTEXT = {
-  sales: "Welke mascotte mag jouw stylist zijn voor één dag?",
-  friend: "Welke mascotte zou jij kiezen als digitale vriend(in)?",
-  lover: "Met welke mascotte zou jij een digitale relatie willen hebben?",
-  coach:
-    "Met welke mascotte zou jij het liefst zwetend in de sportschool staan?",
-  child: "Welke mascotte zou je kiezen om een kind te helpen bij het leren?",
-  hr: "Welke mascotte zou je het liefst zien als je eerste aanspreekpunt bij HR?",
-  onboarding:
-    "Welke mascotte zou jij willen als je persoonlijke onboardingbuddy?",
-  support:
-    "Welke mascotte zou jij bellen als je een probleem hebt met je bestelling?",
-  finance: "Welke mascotte zou jij vertrouwen met je financiële vragen?",
-  mental: "Met welke mascotte zou jij het liefst een meditatiesessie doen?",
+  sales_type: "Welke mascotte mag jouw stylist zijn voor één dag?",
+  friend_type: "Welke mascotte zou jij kiezen als digitale vriend(in)?",
+  coach_type: "Met welke mascotte zou jij het liefst zwetend in de sportschool staan?",
+  support_type: "Je pakketje is kwijt. Wie van deze mascottes wil jij in de klantenservice-chat zien?",
+  mental_type: "Tijdens een korte oefening kijk je naar een mascotte op je telefoon. Welke zie jij het liefst?",
+  hr_type: "Welke mascotte wil jij als digitale buddy op je eerste werkdag?",
+  sales_style: "Stel: je zoekt sneakers in een app. Welke van deze mascottes zie jij het liefst verschijnen?",
+  friend_style: "Deze mascottes sturen je dagelijks een berichtje. Welke voelt het leukst om te zien?",
+  coach_style: "Welke mascotte wil jij als sportmaatje in een trainingsapp?",
+  support_style: "Wie van deze mascottes wil jij zien als je hulp nodig hebt in een webshop?",
+  mental_style: "Tijdens een meditatiesessie verschijnt één mascotte op je scherm. Naar wie kijk jij het liefst?",
+  hr_style: "Welke van deze mascottes zie jij graag verschijnen bij je eerste werkdag?",
 };
 
 export default function App() {
@@ -153,7 +152,7 @@ export default function App() {
         <h1 className="text-3xl font-bold">Mascotte‑Survey</h1>
         <p className="text-gray-700">
           👋 Welkom en bedankt dat je meedoet! Deze korte en interactieve
-          enquête bestaat uit 10 vragen. Bij elke vraag zie je 5 mascottes.
+          enquête bestaat uit 12 vragen. Bij elke vraag zie je 5 mascottes.
           Sleep ze in de volgorde die voor jou het meest logisch voelt — van 1
           (meest passend) tot 5. Niet te lang over nadenken: vertrouw op je
           eerste indruk!

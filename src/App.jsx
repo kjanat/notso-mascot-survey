@@ -264,7 +264,7 @@ export default function App() {
           <div className="
             grid
             grid-cols-5
-            portrait:grid-cols-1
+            [@media(max-width:640px)_and_(orientation:portrait)]:grid-cols-1
             gap-4 min-w-0 w-full
           ">
             {order.map((file, idx) => (

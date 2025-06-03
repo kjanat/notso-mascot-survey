@@ -33,7 +33,7 @@ export default function SortableMascot({ id, src, rank }) {
       {...listeners}
       className={`
         relative bg-white rounded-lg shadow-sm
-        flex portrait:flex-row landscape:flex-col items-center gap-2 p-3
+        flex flex-col [@media(max-width:640px)_and_(orientation:portrait)]:flex-row items-center gap-2 p-3
         w-full border border-gray-100
         ${isDragging ? 'shadow-lg' : 'hover:shadow-md'}
         touch-none cursor-grab
@@ -48,8 +48,9 @@ export default function SortableMascot({ id, src, rank }) {
       </span>
 
       <div className="
-        landscape:w-full landscape:aspect-square
-        portrait:w-16 portrait:h-16
+        w-full aspect-square
+        [@media(max-width:640px)_and_(orientation:portrait)]:w-16
+        [@media(max-width:640px)_and_(orientation:portrait)]:h-16
         bg-gray-50 flex items-center justify-center 
         rounded-lg overflow-hidden
         border border-gray-100

@@ -127,18 +127,20 @@ export default function App() {
   if (hasSubmitted || submitted) {
     return (
       <div className="p-8 space-y-4">
-        <div className="flex justify-between items-center mb-8">
-          <img 
-            src="/logo/notsoAI-logoLine.svg" 
-            alt="NotSoAI Logo" 
-            className="h-5 w-auto"
-          />
+        <div className="flex justify-end mb-8">
           <LanguageSelector />
         </div>
         <div className="text-center">
           <div className="text-xl">{t.alreadySubmitted}</div>
           <div className="text-gray-600">{t.noMultiple}</div>
           <div className="text-gray-600">{t.thanks}</div>
+        </div>
+        <div className="flex justify-center mt-8">
+          <img 
+            src="/logo/notsoAI-logoLine.svg" 
+            alt="NotSoAI Logo" 
+            className="h-5 w-auto"
+          />
         </div>
       </div>
     );
@@ -147,17 +149,19 @@ export default function App() {
   if (!isVerified) {
     return (
       <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 space-y-6">
-        <div className="flex justify-between items-center mb-8">
-          <img 
-            src="/logo/notsoAI-logoLine.svg" 
-            alt="NotSoAI Logo" 
-            className="h-5 w-auto"
-          />
+        <div className="flex justify-end mb-8">
           <LanguageSelector />
         </div>
         <div className="text-center">
           <h1 className="text-3xl font-bold">{t.title}</h1>
           <CaptchaVerification onVerify={setIsVerified} />
+        </div>
+        <div className="flex justify-center mt-8">
+          <img 
+            src="/logo/notsoAI-logoLine.svg" 
+            alt="NotSoAI Logo" 
+            className="h-5 w-auto"
+          />
         </div>
       </div>
     );
@@ -166,16 +170,18 @@ export default function App() {
   if (submitted)
     return (
       <div className="p-8">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex justify-end mb-8">
+          <LanguageSelector />
+        </div>
+        <div className="text-center text-xl">
+          {t.thanks}
+        </div>
+        <div className="flex justify-center mt-8">
           <img 
             src="/logo/notsoAI-logoLine.svg" 
             alt="NotSoAI Logo" 
             className="h-5 w-auto"
           />
-          <LanguageSelector />
-        </div>
-        <div className="text-center text-xl">
-          {t.thanks}
         </div>
       </div>
     );
@@ -183,17 +189,12 @@ export default function App() {
   if (step === "intro")
     return (
       <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 space-y-6">
-        <div className="flex justify-between items-center mb-8">
-          <img 
-            src="/logo/notsoAI-logoLine.svg" 
-            alt="NotSoAI Logo" 
-            className="h-5 w-auto"
-          />
+        <div className="flex justify-end mb-8">
           <LanguageSelector />
         </div>
         <div className="text-center">
-          <h1 className="text-3xl font-bold">{t.title}</h1>
-          <p className="text-gray-700">{t.welcome}</p>
+          <h1 className="text-3xl font-bold mb-6">{t.title}</h1>
+          <p className="text-gray-700 max-w-xl mx-auto">{t.welcome}</p>
         </div>
 
         <div className="max-w-2xl mx-auto bg-gray-50 p-4 rounded-lg text-left text-sm text-gray-600">
@@ -216,77 +217,30 @@ export default function App() {
           </div>
         </div>
 
-        <button
-          onClick={() => setStep(0)}
-          disabled={!privacyConsent}
-          className="bg-green-600 text-white py-3 px-8 rounded hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
-        >
-          {t.startButton}
-        </button>
-      </div>
-    );
+        <div className="flex justify-center">
+          <button
+            onClick={() => setStep(0)}
+            disabled={!privacyConsent}
+            className="bg-green-600 text-white py-3 px-8 rounded hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+          >
+            {t.startButton}
+          </button>
+        </div>
 
-  if (step === "form")
-    return (
-      <div className="max-w-md mx-auto p-8 space-y-4">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex justify-center mt-8">
           <img 
             src="/logo/notsoAI-logoLine.svg" 
             alt="NotSoAI Logo" 
             className="h-5 w-auto"
           />
-          <LanguageSelector />
         </div>
-        <h2 className="text-2xl font-semibold text-center">{t.finalQuestions}</h2>
-        <input
-          type="number"
-          min="1"
-          max="99"
-          placeholder={t.age}
-          className="w-full p-3 border rounded"
-          value={form.age}
-          onInput={(e) => {
-            const v = e.target.value.replace(/[^0-9]/g, "").slice(0, 2);
-            setForm({ ...form, age: v });
-          }}
-        />
-        <select
-          className="w-full p-3 border rounded"
-          defaultValue=""
-          onChange={(e) => setForm({ ...form, gender: e.target.value })}
-        >
-          <option value="" disabled>{t.genderOptions.placeholder}</option>
-          <option>{t.genderOptions.male}</option>
-          <option>{t.genderOptions.female}</option>
-          <option>{t.genderOptions.other}</option>
-        </select>
-        <select
-          className="w-full p-3 border rounded"
-          defaultValue=""
-          onChange={(e) => setForm({ ...form, education: e.target.value })}
-        >
-          <option value="" disabled>{t.educationOptions.placeholder}</option>
-          <option>{t.educationOptions.primary}</option>
-          <option>{t.educationOptions.vmbo}</option>
-          <option>{t.educationOptions.havo}</option>
-          <option>{t.educationOptions.vwo}</option>
-          <option>{t.educationOptions.hbo}</option>
-          <option>{t.educationOptions.uni}</option>
-        </select>
-        <button
-          disabled={!form.age || !form.gender || !form.education}
-          onClick={submit}
-          className="w-full py-3 rounded text-white disabled:bg-gray-400 bg-blue-600 hover:bg-blue-700"
-        >
-          {t.submitButton}
-        </button>
       </div>
     );
 
   const q = QUESTIONS[step];
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mb-8">
         <img 
           src="/logo/notsoAI-logoLine.svg" 
           alt="NotSoAI Logo" 

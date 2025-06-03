@@ -261,7 +261,12 @@ export default function App() {
           items={order}
           strategy={rectSortingStrategy}
         >
-          <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
+          <div className="
+            grid
+            grid-cols-5
+            portrait:grid-cols-1
+            gap-4 min-w-0 w-full
+          ">
             {order.map((file, idx) => (
               <SortableMascot
                 key={file}

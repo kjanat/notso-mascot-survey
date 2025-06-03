@@ -22,7 +22,9 @@ export default function SortableMascot({ id, src, rank }) {
   };
 
   const type = id.split("-")[1].replace(".png", "");
-  const label = LABEL_MAP[type] ?? "Mascotte";
+  // Get the language from localStorage, defaulting to 'nl'
+  const lang = localStorage.getItem('lang') || 'nl';
+  const label = LABEL_MAP[lang]?.[type] ?? "Mascotte";
   const [fallback, setFallback] = useState(false);
 
   return (

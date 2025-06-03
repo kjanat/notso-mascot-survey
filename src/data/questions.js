@@ -24,16 +24,32 @@ export const QUESTIONS = TOPICS.map((id) => ({
 }));
 
 export const LABEL_MAP = {
-  // Character types
-  man: "Man",
-  woman: "Vrouw",
-  animal: "Dier",
-  blob: "Blob",
-  robot: "Robot",
-  // Style types
-  realistic: "Realistisch",
-  pixar: "Pixar-stijl",
-  cartoony: "Cartoony-stijl",
-  figurative: "Figuratief",
-  toy: "Toy-stijl",
+  nl: {
+    // Character types
+    man: "Man",
+    woman: "Vrouw",
+    animal: "Dier",
+    blob: "Blob",
+    robot: "Robot",
+    // Style types
+    realistic: "Realistisch",
+    pixar: "Pixar-stijl",
+    cartoony: "Cartoony-stijl",
+    figurative: "Figuratief",
+    toy: "Toy-stijl",
+  },
+  en: {
+    // Character types
+    man: "Man",
+    woman: "Woman",
+    animal: "Animal",
+    blob: "Blob",
+    robot: "Robot",
+    // Style types
+    realistic: "Realistic",
+    pixar: "Pixar-style",
+    cartoony: "Cartoony-style",
+    figurative: "Figurative",
+    toy: "Toy-style",
+  }
 };

@@ -28,6 +28,11 @@ export default function App() {
   const [form, setForm] = useState({ age: "", gender: "", education: "" });
   const [submitted, setSubmitted] = useState(false);
   const [lang, setLang] = useState("nl");
+  // Update localStorage when language changes
+  React.useEffect(() => {
+    localStorage.setItem('lang', lang);
+  }, [lang]);
+
   const t = translations[lang];
 
   // Language selector component

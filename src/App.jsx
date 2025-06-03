@@ -239,6 +239,16 @@ export default function App() {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 space-y-6">
       <LanguageSelector />
+      {/* Progress bar */}
+      <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+        <div 
+          className="bg-green-600 h-full transition-all duration-300 ease-out"
+          style={{ width: `${((step + 1) / QUESTIONS.length) * 100}%` }}
+        />
+      </div>
+      <div className="text-sm text-gray-600 text-right">
+        {step + 1} / {QUESTIONS.length}
+      </div>
       <h1 className="text-2xl font-bold">{t.questions[q.id]}</h1>
       <p className="text-sm text-gray-600">
         {t.dragInstructions}

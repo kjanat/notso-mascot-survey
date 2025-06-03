@@ -126,39 +126,75 @@ export default function App() {
 
   if (hasSubmitted || submitted) {
     return (
-      <div className="p-8 text-center space-y-4">
-        <LanguageSelector />
-        <div className="text-xl">{t.alreadySubmitted}</div>
-        <div className="text-gray-600">{t.noMultiple}</div>
-        <div className="text-gray-600">{t.thanks}</div>
+      <div className="p-8 space-y-4">
+        <div className="flex justify-between items-center mb-8">
+          <img 
+            src="/logo/notsoAI-logoLine.svg" 
+            alt="NotSoAI Logo" 
+            className="h-5 w-auto"
+          />
+          <LanguageSelector />
+        </div>
+        <div className="text-center">
+          <div className="text-xl">{t.alreadySubmitted}</div>
+          <div className="text-gray-600">{t.noMultiple}</div>
+          <div className="text-gray-600">{t.thanks}</div>
+        </div>
       </div>
     );
   }
 
   if (!isVerified) {
     return (
-      <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 text-center space-y-6">
-        <LanguageSelector />
-        <h1 className="text-3xl font-bold">{t.title}</h1>
-        <CaptchaVerification onVerify={setIsVerified} />
+      <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 space-y-6">
+        <div className="flex justify-between items-center mb-8">
+          <img 
+            src="/logo/notsoAI-logoLine.svg" 
+            alt="NotSoAI Logo" 
+            className="h-5 w-auto"
+          />
+          <LanguageSelector />
+        </div>
+        <div className="text-center">
+          <h1 className="text-3xl font-bold">{t.title}</h1>
+          <CaptchaVerification onVerify={setIsVerified} />
+        </div>
       </div>
     );
   }
 
   if (submitted)
     return (
-      <div className="p-8 text-center text-xl">
-        <LanguageSelector />
-        {t.thanks}
+      <div className="p-8">
+        <div className="flex justify-between items-center mb-8">
+          <img 
+            src="/logo/notsoAI-logoLine.svg" 
+            alt="NotSoAI Logo" 
+            className="h-5 w-auto"
+          />
+          <LanguageSelector />
+        </div>
+        <div className="text-center text-xl">
+          {t.thanks}
+        </div>
       </div>
     );
 
   if (step === "intro")
     return (
-      <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 text-center space-y-6">
-        <LanguageSelector />
-        <h1 className="text-3xl font-bold">{t.title}</h1>
-        <p className="text-gray-700">{t.welcome}</p>
+      <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 space-y-6">
+        <div className="flex justify-between items-center mb-8">
+          <img 
+            src="/logo/notsoAI-logoLine.svg" 
+            alt="NotSoAI Logo" 
+            className="h-5 w-auto"
+          />
+          <LanguageSelector />
+        </div>
+        <div className="text-center">
+          <h1 className="text-3xl font-bold">{t.title}</h1>
+          <p className="text-gray-700">{t.welcome}</p>
+        </div>
 
         <div className="max-w-2xl mx-auto bg-gray-50 p-4 rounded-lg text-left text-sm text-gray-600">
           <h2 className="font-bold mb-2">{t.privacyTitle}</h2>
@@ -193,7 +229,14 @@ export default function App() {
   if (step === "form")
     return (
       <div className="max-w-md mx-auto p-8 space-y-4">
-        <LanguageSelector />
+        <div className="flex justify-between items-center mb-8">
+          <img 
+            src="/logo/notsoAI-logoLine.svg" 
+            alt="NotSoAI Logo" 
+            className="h-5 w-auto"
+          />
+          <LanguageSelector />
+        </div>
         <h2 className="text-2xl font-semibold text-center">{t.finalQuestions}</h2>
         <input
           type="number"
@@ -243,7 +286,14 @@ export default function App() {
   const q = QUESTIONS[step];
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 space-y-6">
-      <LanguageSelector />
+      <div className="flex justify-between items-center">
+        <img 
+          src="/logo/notsoAI-logoLine.svg" 
+          alt="NotSoAI Logo" 
+          className="h-5 w-auto"
+        />
+        <LanguageSelector />
+      </div>
       {/* Progress bar */}
       <div className="w-full h-2 bg-gray-200 rounded-full relative">
         <div 

@@ -237,6 +237,82 @@ export default function App() {
       </div>
     );
 
+  if (step === "form")
+    return (
+      <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 space-y-6">
+        <div className="flex justify-end mb-8">
+          <LanguageSelector />
+        </div>
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold">{t.finalQuestions}</h1>
+        </div>
+        <div className="max-w-md mx-auto space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              {t.age}
+            </label>
+            <input
+              type="number"
+              min="0"
+              max="120"
+              value={form.age}
+              onChange={(e) => setForm({ ...form, age: e.target.value })}
+              className="w-full p-2 border rounded"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              {t.gender}
+            </label>
+            <select
+              value={form.gender}
+              onChange={(e) => setForm({ ...form, gender: e.target.value })}
+              className="w-full p-2 border rounded"
+            >
+              <option value="">{t.genderOptions.placeholder}</option>
+              <option value="male">{t.genderOptions.male}</option>
+              <option value="female">{t.genderOptions.female}</option>
+              <option value="other">{t.genderOptions.other}</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              {t.education}
+            </label>
+            <select
+              value={form.education}
+              onChange={(e) => setForm({ ...form, education: e.target.value })}
+              className="w-full p-2 border rounded"
+            >
+              <option value="">{t.educationOptions.placeholder}</option>
+              <option value="primary">{t.educationOptions.primary}</option>
+              <option value="vmbo">{t.educationOptions.vmbo}</option>
+              <option value="havo">{t.educationOptions.havo}</option>
+              <option value="vwo">{t.educationOptions.vwo}</option>
+              <option value="hbo">{t.educationOptions.hbo}</option>
+              <option value="uni">{t.educationOptions.uni}</option>
+            </select>
+          </div>
+          <div className="pt-4">
+            <button
+              onClick={submit}
+              disabled={!form.age || !form.gender || !form.education}
+              className="w-full bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+            >
+              {t.submitButton}
+            </button>
+          </div>
+        </div>
+        <div className="flex justify-center mt-8">
+          <img 
+            src="/logo/notsoAI-logoLine.svg" 
+            alt="NotSoAI Logo" 
+            className="h-5 w-auto"
+          />
+        </div>
+      </div>
+    );
+
   const q = QUESTIONS[step];
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 space-y-6">

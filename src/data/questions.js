@@ -2,18 +2,18 @@ export const CHARACTER_TYPES = ["man", "woman", "animal", "blob", "robot"];
 export const STYLE_TYPES = ["realistic", "pixar", "cartoony", "figurative", "toy"];
 
 export const TOPICS = [
-  "sales_type",
   "friend_type",
-  "coach_type",
+  "sales_type",
   "support_type",
-  "mental_type",
+  "coach_type",
   "hr_type",
-  "sales_style",
+  "mental_type",
   "friend_style",
-  "coach_style",
+  "sales_style",
   "support_style",
-  "mental_style",
+  "coach_style",
   "hr_style",
+  "mental_style",
 ];
 
 export const QUESTIONS = TOPICS.map((id) => ({
@@ -41,7 +41,7 @@ export const LABEL_MAP = {
   en: {
     // Character types
     man: "Man",
-    woman: "Woman",
+    woman: "Woman", 
     animal: "Animal",
     blob: "Blob",
     robot: "Robot",

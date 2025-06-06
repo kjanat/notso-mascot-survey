@@ -13,6 +13,6 @@ export default defineConfig({
   },
   // Ensure environment variables are loaded
   envPrefix: 'VITE_',
-  // Configure base URL for production
-  base: '/'
+  // Configure base URL for GitHub Pages
+  base: './'
 });

@@ -466,7 +466,7 @@ export default function App() {
                 key={file}
                 id={file}
                 rank={idx + 1}
-                src={`/mascots/${q.id}/${file}`}
+                src={`mascots/${q.id}/${file}`}
               />
             ))}
           </div>

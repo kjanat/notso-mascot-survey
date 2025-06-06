@@ -132,7 +132,8 @@ export default function App() {
     const nu = order.indexOf(over.id);
     const newOrder = [...order];
     newOrder.splice(old, 1);
-    newOrder.splice(nu, 0, active.id);
+    const newIndex = old < nu ? nu - 1 : nu;
+    newOrder.splice(newIndex, 0, active.id);
     setOrder(newOrder);
   }
   function next() {

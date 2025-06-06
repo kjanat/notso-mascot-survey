@@ -221,7 +221,7 @@ export default function App() {
         </div>
         <div className="flex justify-center mt-8">
           <img 
-            src="/logo/notsoAI-logoLine.svg" 
+            src="logo/notsoAI-logoLine.svg" 
             alt="NotSoAI Logo" 
             className="h-5 w-auto"
           />
@@ -242,7 +242,7 @@ export default function App() {
         </div>
         <div className="flex justify-center mt-8">
           <img 
-            src="/logo/notsoAI-logoLine.svg" 
+            src="logo/notsoAI-logoLine.svg" 
             alt="NotSoAI Logo" 
             className="h-5 w-auto"
           />
@@ -262,7 +262,7 @@ export default function App() {
         </div>
         <div className="flex justify-center mt-8">
           <img 
-            src="/logo/notsoAI-logoLine.svg" 
+            src="logo/notsoAI-logoLine.svg" 
             alt="NotSoAI Logo" 
             className="h-5 w-auto"
           />
@@ -313,7 +313,7 @@ export default function App() {
 
         <div className="flex justify-center mt-8">
           <img 
-            src="/logo/notsoAI-logoLine.svg" 
+            src="logo/notsoAI-logoLine.svg" 
             alt="NotSoAI Logo" 
             className="h-5 w-auto"
           />
@@ -407,7 +407,7 @@ export default function App() {
         </div>
         <div className="flex justify-center mt-8">
           <img 
-            src="/logo/notsoAI-logoLine.svg" 
+            src="logo/notsoAI-logoLine.svg" 
             alt="NotSoAI Logo" 
             className="h-5 w-auto"
           />
@@ -420,7 +420,7 @@ export default function App() {
     <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 space-y-6">
       <div className="flex justify-between items-center mb-8">
         <img 
-          src="/logo/notsoAI-logoLine.svg" 
+          src="logo/notsoAI-logoLine.svg" 
           alt="NotSoAI Logo" 
           className="h-5 w-auto"
         />

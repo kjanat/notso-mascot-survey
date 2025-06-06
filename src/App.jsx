@@ -14,6 +14,7 @@ import {
 import { QUESTIONS } from "./data/questions";
 import SortableMascot from "./components/SortableMascot";
 import CaptchaVerification from "./components/CaptchaVerification";
+import EnvironmentCheck from "./components/EnvironmentCheck";
 import { hasUserSubmitted, markAsSubmitted } from "./utils/submissionTracker";
 import { translations } from "./data/translations";
 
@@ -211,6 +212,7 @@ export default function App() {
   if (hasSubmitted || submitted) {
     return (
       <div className="p-8 space-y-4">
+        <EnvironmentCheck />
         <div className="flex justify-end mb-8">
           <LanguageSelector />
         </div>
@@ -233,6 +235,7 @@ export default function App() {
   if (!isVerified) {
     return (
       <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 space-y-6">
+        <EnvironmentCheck />
         <div className="flex justify-end mb-8">
           <LanguageSelector />
         </div>
@@ -466,7 +469,7 @@ export default function App() {
                 key={file}
                 id={file}
                 rank={idx + 1}
-                src={`/mascots/${q.id}/${file}`}
+                src={`mascots/${q.id}/${file}`}
               />
             ))}
           </div>

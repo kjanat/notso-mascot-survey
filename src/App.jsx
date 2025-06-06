@@ -73,7 +73,7 @@ export default function App() {
   const [order, setOrder] = useState([]);
   const [form, setForm] = useState({ age: "", gender: "", education: "" });
   const [submitted, setSubmitted] = useState(false);
-  const [lang, setLang] = useState("nl");
+  const [lang, setLang] = useState(() => localStorage.getItem('lang') || 'nl');
   const [formErrors, setFormErrors] = useState({});
 
   // Update localStorage when language changes

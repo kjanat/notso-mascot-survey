@@ -41,7 +41,7 @@ const validateForm = (form) => {
   return errors;
 };
 
-const validateMascotRankings = (answers, questions) => {
+export const validateMascotRankings = (answers, questions) => {
   // Check if we have answers for all questions
   const missingQuestions = questions.filter(q => !answers[q.id] || answers[q.id].length !== 5);
   if (missingQuestions.length > 0) {

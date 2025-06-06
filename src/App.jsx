@@ -108,6 +108,15 @@ export default function App() {
     if (typeof step === "number") {
       const qid = QUESTIONS[step].id;
       setOrder(answers[qid] ?? QUESTIONS[step].options);
+
+      // Prefetch images for the next question
+      if (step + 1 < QUESTIONS.length) {
+        const nextQ = QUESTIONS[step + 1];
+        nextQ.options.forEach(file => {
+          const img = new Image();
+          img.src = `mascots/${nextQ.id}/${file}`;
+        });
+      }
     }
   }, [step]);
 

@@ -22,7 +22,8 @@ const CaptchaVerification = ({ onVerify }) => {
 
   return (
     <div className="flex flex-col items-center justify-center p-4">
-      <h2 className="text-xl mb-4">{window.location.hostname.includes('nl') ? 'Verifieer dat je een mens bent' : 'Please verify that you\'re human'}</h2>      <ReCAPTCHA
+      <h2 className="text-xl mb-4">{window.location.hostname.includes('nl') ? 'Verifieer dat je een mens bent' : 'Please verify that you\'re human'}</h2>
+      <ReCAPTCHA
         sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
         onChange={handleCaptchaVerify}
       />

@@ -1,7 +1,7 @@
 export const translations = {
   nl: {
     title: "Mascotte‑Survey",
-    welcome: "👋 Welkom en bedankt dat je meedoet! Deze korte en interactieve enquête bestaat uit 12 vragen. Bij elke vraag zie je 5 mascottes. Sleep ze in de volgorde die voor jou het meest logisch voelt — van 1 (meest passend) tot 5. Niet te lang over nadenken: vertrouw op je eerste indruk!",
+    welcome: "👋 Welkom en bedankt dat je meedoet! Deze korte en interactieve enquête bestaat uit 12 vragen. Bij elke vraag zie je 5 mascottes. Sleep ze in de volgorde die voor jou het meest logisch voelt — van 1 (meest passend) tot 5 (minst passend). Niet te lang over nadenken: vertrouw op je eerste indruk!",
     privacyTitle: "Privacy Verklaring",
     privacyIntro: "Door deel te nemen aan deze enquête ga je akkoord met het volgende:",
     privacyPoints: [
@@ -10,10 +10,9 @@ export const translations = {
       "We gebruiken een browser fingerprint om dubbele inzendingen te voorkomen",
       "Je gegevens worden anoniem verwerkt en alleen voor onderzoeksdoeleinden gebruikt",
       "Je kunt maar één keer deelnemen aan deze enquête"
-    ],
-    privacyConsent: "Ik ga akkoord met het verzamelen en verwerken van mijn gegevens zoals hierboven beschreven",
+    ],    privacyConsent: "Ik ga akkoord met het verzamelen en verwerken van mijn gegevens zoals hierboven beschreven",
     startButton: "Start",
-    dragInstructions: "Sleep om te rangschikken: 1 = beste",
+    dragInstructions: "Sleep om te rangschikken: 1 = meest passend, 5 = minst passend",
     backButton: "Terug",
     nextButton: "Volgende",
     backgroundQuestions: "Achtergrondvragen",
@@ -57,7 +56,7 @@ export const translations = {
   },
   en: {
     title: "Mascot Survey",
-    welcome: "👋 Welcome and thank you for participating! This short interactive survey consists of 12 questions. For each question, you'll see 5 mascots. Drag them in the order that feels most logical to you — from 1 (most suitable) to 5. Don't think too long: trust your first impression!",
+    welcome: "👋 Welcome and thank you for participating! This short interactive survey consists of 12 questions. For each question, you'll see 5 mascots. Drag them in the order that feels most logical to you — from 1 (most suitable) to 5 (least suitable). Don't think too long: trust your first impression!",
     privacyTitle: "Privacy Statement",
     privacyIntro: "By participating in this survey, you agree to the following:",
     privacyPoints: [
@@ -69,7 +68,7 @@ export const translations = {
     ],
     privacyConsent: "I agree to the collection and processing of my data as described above",
     startButton: "Start",
-    dragInstructions: "Drag to rank: 1 = best",
+    dragInstructions: "Drag to rank: 1 = best, 5 = least suitable",
     backButton: "Back",
     nextButton: "Next",
     backgroundQuestions: "Background Questions",

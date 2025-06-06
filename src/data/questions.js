@@ -33,7 +33,7 @@ export const LABEL_MAP = {
     robot: "Robot",
     // Style types
     realistic: "Realistisch",
-    pixar: "Pixar-stijl",
+    pixar: "Gestileerd",
     cartoony: "Cartoony-stijl",
     figurative: "Figuratief",
     toy: "Toy-stijl",
@@ -47,7 +47,7 @@ export const LABEL_MAP = {
     robot: "Robot",
     // Style types
     realistic: "Realistic",
-    pixar: "Pixar-style",
+    pixar: "Stylized",
     cartoony: "Cartoony-style",
     figurative: "Figurative",
     toy: "Toy-style",

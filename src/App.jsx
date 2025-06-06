@@ -17,6 +17,51 @@ import CaptchaVerification from "./components/CaptchaVerification";
 import { hasUserSubmitted, markAsSubmitted } from "./utils/submissionTracker";
 import { translations } from "./data/translations";
 
+const validateForm = (form) => {
+  const errors = {};
+  
+  // Age validation
+  if (!form.age) {
+    errors.age = "Leeftijd is verplicht";
+  } else if (form.age < 16 || form.age > 120) {
+    errors.age = "Leeftijd moet tussen 16 en 120 jaar zijn";
+  }
+  
+  // Gender validation
+  if (!form.gender) {
+    errors.gender = "Geslacht is verplicht";
+  }
+  
+  // Education validation
+  if (!form.education) {
+    errors.education = "Opleiding is verplicht";
+  }
+  
+  return errors;
+};
+
+const validateMascotRankings = (answers, questions) => {
+  // Check if we have answers for all questions
+  const missingQuestions = questions.filter(q => !answers[q.id] || answers[q.id].length !== 5);
+  if (missingQuestions.length > 0) {
+    return false;
+  }
+  
+  // Check if each question has valid rankings (all mascots ranked)
+  for (const [qid, ranking] of Object.entries(answers)) {
+    const question = questions.find(q => q.id === qid);
+    if (!question) continue;
+    
+    // Check if we have exactly 5 unique rankings
+    const uniqueRankings = new Set(ranking);
+    if (uniqueRankings.size !== 5) {
+      return false;
+    }
+  }
+  
+  return true;
+};
+
 export default function App() {
   const [isMobile, setIsMobile] = React.useState(window.innerWidth <= 639);
   const [isVerified, setIsVerified] = React.useState(false);
@@ -28,6 +73,8 @@ export default function App() {
   const [form, setForm] = useState({ age: "", gender: "", education: "" });
   const [submitted, setSubmitted] = useState(false);
   const [lang, setLang] = useState("nl");
+  const [formErrors, setFormErrors] = useState({});
+
   // Update localStorage when language changes
   React.useEffect(() => {
     localStorage.setItem('lang', lang);
@@ -101,27 +148,64 @@ export default function App() {
   }
 
   async function submit() {
-    const orderStrings = Object.fromEntries(
-      Object.entries(answers).map(([qid, arr]) => {
+    try {
+      // Validate form
+      const validationErrors = validateForm(form);
+      if (Object.keys(validationErrors).length > 0) {
+        setFormErrors(validationErrors);
+        return;
+      }
+
+      // Validate mascot rankings
+      if (!validateMascotRankings(answers, QUESTIONS)) {
+        alert('Zorg ervoor dat alle mascottes zijn gerangschikt voordat je de enquête verstuurt.');
+        return;
+      }
+
+      // Format the answers into individual columns
+      const formattedAnswers = Object.entries(answers).reduce((acc, [qid, arr]) => {
         const orig = QUESTIONS.find((q) => q.id === qid).options;
-        return [qid, arr.map((opt) => orig.indexOf(opt) + 1).join("")];
-      })
-    );
-    const payload = {
-      data: {
-        ...form,
-        ...orderStrings,
-        timestamp: new Date().toISOString(),
-        userAgent: navigator.userAgent,
-      },
-    };
-    await fetch("https://sheetdb.io/api/v1/h1bwcita99si3", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    await markAsSubmitted();
-    setSubmitted(true);
+        const rankString = arr.map(opt => (orig.indexOf(opt) + 1).toString()).join("");
+        acc[qid] = rankString;
+        return acc;
+      }, {});
+
+      // Prepare the data in SheetDB format
+      const payload = {
+        data: [{
+          timestamp: new Date().toISOString(),
+          age: form.age,
+          gender: form.gender,
+          education: form.education,
+          userAgent: navigator.userAgent,
+          ...formattedAnswers
+        }]
+      };
+
+      console.log('Submitting data:', payload);
+
+      const response = await fetch(import.meta.env.VITE_SHEET_DB_API, {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Submission failed: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log('Submission successful:', result);
+
+      await markAsSubmitted();
+      setSubmitted(true);
+    } catch (error) {
+      console.error('Submission error:', error);
+      alert('Er is een fout opgetreden bij het versturen van de gegevens. Probeer het opnieuw.');
+    }
   }
 
   if (hasSubmitted || submitted) {
@@ -253,12 +337,18 @@ export default function App() {
             </label>
             <input
               type="number"
-              min="0"
+              min="16"
               max="120"
               value={form.age}
-              onChange={(e) => setForm({ ...form, age: e.target.value })}
-              className="w-full p-2 border rounded"
+              onChange={(e) => {
+                setForm({ ...form, age: e.target.value });
+                setFormErrors({ ...formErrors, age: null });
+              }}
+              className={`w-full p-2 border rounded ${formErrors.age ? 'border-red-500' : ''}`}
             />
+            {formErrors.age && (
+              <p className="mt-1 text-sm text-red-600">{formErrors.age}</p>
+            )}
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -266,14 +356,20 @@ export default function App() {
             </label>
             <select
               value={form.gender}
-              onChange={(e) => setForm({ ...form, gender: e.target.value })}
-              className="w-full p-2 border rounded"
+              onChange={(e) => {
+                setForm({ ...form, gender: e.target.value });
+                setFormErrors({ ...formErrors, gender: null });
+              }}
+              className={`w-full p-2 border rounded ${formErrors.gender ? 'border-red-500' : ''}`}
             >
               <option value="">{t.genderOptions.placeholder}</option>
               <option value="male">{t.genderOptions.male}</option>
               <option value="female">{t.genderOptions.female}</option>
               <option value="other">{t.genderOptions.other}</option>
             </select>
+            {formErrors.gender && (
+              <p className="mt-1 text-sm text-red-600">{formErrors.gender}</p>
+            )}
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -281,8 +377,11 @@ export default function App() {
             </label>
             <select
               value={form.education}
-              onChange={(e) => setForm({ ...form, education: e.target.value })}
-              className="w-full p-2 border rounded"
+              onChange={(e) => {
+                setForm({ ...form, education: e.target.value });
+                setFormErrors({ ...formErrors, education: null });
+              }}
+              className={`w-full p-2 border rounded ${formErrors.education ? 'border-red-500' : ''}`}
             >
               <option value="">{t.educationOptions.placeholder}</option>
               <option value="primary">{t.educationOptions.primary}</option>
@@ -292,6 +391,9 @@ export default function App() {
               <option value="hbo">{t.educationOptions.hbo}</option>
               <option value="uni">{t.educationOptions.uni}</option>
             </select>
+            {formErrors.education && (
+              <p className="mt-1 text-sm text-red-600">{formErrors.education}</p>
+            )}
           </div>
           <div className="pt-4">
             <button

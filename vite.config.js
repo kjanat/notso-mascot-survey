@@ -13,6 +13,6 @@ export default defineConfig({
   },
   // Ensure environment variables are loaded
   envPrefix: 'VITE_',
-  // Configure base URL for production to work with live server
-  base: ''
+  // Configure base URL for production
+  base: '/'
 });

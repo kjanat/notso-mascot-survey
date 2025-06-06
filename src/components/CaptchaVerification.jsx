@@ -1,7 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 const CaptchaVerification = ({ onVerify }) => {
+  useEffect(() => {
+    // If CAPTCHA is disabled, automatically verify
+    if (import.meta.env.VITE_DISABLE_CAPTCHA === 'true') {
+      onVerify(true);
+    }
+  }, [onVerify]);
+
+  // If CAPTCHA is disabled, don't render the component
+  if (import.meta.env.VITE_DISABLE_CAPTCHA === 'true') {
+    return null;
+  }
+
   const handleCaptchaVerify = (token) => {
     if (token) {
       onVerify(true);

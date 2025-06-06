@@ -22,7 +22,7 @@ updates:
     versioning-strategy: auto
     # Set pull request limits
     open-pull-requests-limit: 10
-    group:
+    groups:
       # Group all updates together
       all:
         patterns:
@@ -47,7 +47,7 @@ updates:
           - "*"
     # Set pull request limits
     open-pull-requests-limit: 10
-    group:
+    groups:
       # Group all updates together
       all:
         patterns:

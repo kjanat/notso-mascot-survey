@@ -45,6 +45,8 @@ export const translations = {
     noMultiple:
       'Het is niet mogelijk om de enquête meerdere keren in te vullen.',
     thanks: 'Bedankt voor je deelname! 🎉',
+    rankingsIncomplete: 'Zorg ervoor dat alle mascottes zijn gerangschikt voordat je de enquête verstuurt.',
+    submissionError: 'Er is een fout opgetreden bij het versturen van de gegevens. Probeer het opnieuw.',
     questions: {
       sales_type:
         'Je wint een make-over. Welke digitale assistent mag jouw stylist zijn?',
@@ -114,6 +116,8 @@ export const translations = {
     alreadySubmitted: 'You have already completed this survey.',
     noMultiple: 'It is not possible to complete the survey multiple times.',
     thanks: 'Thank you for participating! 🎉',
+    rankingsIncomplete: 'Please rank all mascots before submitting the survey.',
+    submissionError: 'An error occurred while submitting your data. Please try again.',
     questions: {
       sales_type:
         'You’ve won a makeover. Which digital assistant would you pick as your stylist?',

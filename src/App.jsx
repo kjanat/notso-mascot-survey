@@ -185,7 +185,7 @@ export default function App () {
 
       // Validate mascot rankings
       if (!validateMascotRankings(answers, QUESTIONS)) {
-        alert('Zorg ervoor dat alle mascottes zijn gerangschikt voordat je de enquête verstuurt.')
+        alert(t.rankingsIncomplete)
         return
       }
 
@@ -231,7 +231,7 @@ export default function App () {
       setSubmitted(true)
     } catch (error) {
       console.error('Submission error:', error)
-      alert('Er is een fout opgetreden bij het versturen van de gegevens. Probeer het opnieuw.')
+      alert(t.submissionError)
     }
   }
 

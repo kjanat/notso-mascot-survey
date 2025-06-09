@@ -1,6 +1,6 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import envCompatible from 'vite-plugin-env-compatible';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import envCompatible from 'vite-plugin-env-compatible'
 
 export default defineConfig({
   plugins: [
@@ -9,10 +9,10 @@ export default defineConfig({
   ],
   build: {
     outDir: 'dist',
-    sourcemap: true,
+    sourcemap: true
   },
   // Ensure environment variables are loaded
   envPrefix: 'VITE_',
   // Configure base URL for GitHub Pages
   base: './'
-});
+})

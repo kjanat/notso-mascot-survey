@@ -36,7 +36,7 @@ jobs:
         run: npm ci
 
       - name: Build project
-        run: npm run build
+        run: VITE_SHEET_DB_API=${VITE_SHEET_DB_API} VITE_RECAPTCHA_SITE_KEY=${VITE_RECAPTCHA_SITE_KEY} VITE_DISABLE_SUBMISSION_CHECK=${VITE_DISABLE_SUBMISSION_CHECK} ${VITE_DISABLE_CAPTCHA} npm run build
         env:
           VITE_SHEET_DB_API: ${{ secrets.VITE_SHEET_DB_API }}
           VITE_RECAPTCHA_SITE_KEY: ${{ secrets.VITE_RECAPTCHA_SITE_KEY }}

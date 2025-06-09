@@ -11,9 +11,7 @@ export default function SortableMascot({ id, src, rank }) {
     transform,
     transition,
     isDragging
-  } = useSortable({
-    id
-  });
+  } = useSortable({ id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -22,7 +20,6 @@ export default function SortableMascot({ id, src, rank }) {
   };
 
   const type = id.split("-")[1].replace(".png", "");
-  // Get the language from localStorage, defaulting to 'nl'
   const lang = localStorage.getItem('lang') || 'nl';
   const label = LABEL_MAP[lang]?.[type] ?? "Mascotte";
   const [fallback, setFallback] = useState(false);
@@ -34,45 +31,55 @@ export default function SortableMascot({ id, src, rank }) {
       {...attributes}
       {...listeners}
       className={`
-        relative bg-white rounded-lg shadow-sm
-        flex flex-col [@media(max-width:640px)_and_(orientation:portrait)]:flex-row items-center
-        w-full border border-gray-100
-        p-3 gap-2
-        ${isDragging ? 'shadow-lg' : 'hover:shadow-md'}
+        relative bg-white rounded-md
+        flex portrait:flex-row landscape:flex-col
+        items-center
+        w-full h-full
+        ${isDragging ? 'shadow-lg' : 'shadow-sm'}
         touch-none cursor-grab
       `}
     >
-      <span className="
-        absolute -top-2 -left-2 bg-blue-600 text-white
-        w-6 h-6 flex items-center justify-center
-        rounded-full text-sm font-medium shadow-sm z-20
+      {/* Rank number */}
+      <div className="
+        absolute -top-2 -left-2
+        bg-blue-600 text-white
+        w-5 h-5
+        flex items-center justify-center
+        rounded-full text-xs font-bold
+        border-2 border-white
+        shadow-sm
+        z-10
       ">
         {rank}
-      </span>
+      </div>
 
+      {/* Image container */}
       <div className="
-        relative
-        w-full aspect-square
-        [@media(max-width:640px)_and_(orientation:portrait)]:w-16
-        [@media(max-width:640px)_and_(orientation:portrait)]:h-16
+        portrait:h-full portrait:w-20
+        landscape:w-full landscape:h-[calc(100%-1rem)]
+        flex items-center justify-center
+        flex-shrink-0
       ">
         <img
           src={fallback ? "mascots/missing.jpg" : src}
           alt={label}
-          className="w-full h-full object-contain"
+          className="h-full w-full object-contain"
           onError={() => setFallback(true)}
           draggable={false}
         />
       </div>
 
-      <span className="
-        min-h-[1.5rem]
-        [@media(max-width:640px)_and_(orientation:portrait)]:flex-1
-        text-sm font-medium
-        text-gray-700 text-center
+      {/* Label */}
+      <div className="
+        portrait:pl-px portrait:flex-1
+        landscape:w-full landscape:h-3
+        landscape:text-center
+        truncate
+        text-[10px] leading-none
+        text-gray-700 font-medium
       ">
         {label}
-      </span>
+      </div>
     </div>
   );
 }

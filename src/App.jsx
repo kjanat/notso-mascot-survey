@@ -20,12 +20,11 @@ import { translations } from "./data/translations";
 
 const validateForm = (form) => {
   const errors = {};
-  
-  // Age validation
+    // Age validation
   if (!form.age) {
     errors.age = "Leeftijd is verplicht";
-  } else if (form.age < 16 || form.age > 120) {
-    errors.age = "Leeftijd moet tussen 16 en 120 jaar zijn";
+  } else if (form.age < 12 || form.age > 99) {
+    errors.age = "Leeftijd moet tussen 12 en 99 jaar zijn";
   }
   
   // Gender validation
@@ -85,14 +84,20 @@ export default function App() {
 
   // Language selector component
   const LanguageSelector = () => (
-    <select
-      value={lang}
-      onChange={(e) => setLang(e.target.value)}
-      className="absolute top-4 right-4 p-2 border rounded bg-white"
-    >
-      <option value="nl">Nederlands</option>
-      <option value="en">English</option>
-    </select>
+    <div className="flex gap-1">
+      <button
+        onClick={() => setLang('nl')} 
+        className={`w-7 h-5 bg-cover bg-center rounded-sm border ${lang === 'nl' ? 'border-blue-500 shadow' : 'border-gray-300'}`}
+        style={{ backgroundImage: 'url("/flags/nl.svg")', backgroundSize: '100% 100%' }}
+        aria-label="Nederlands"
+      />
+      <button  
+        onClick={() => setLang('en')}
+        className={`w-7 h-5 bg-cover bg-center rounded-sm border ${lang === 'en' ? 'border-blue-500 shadow' : 'border-gray-300'}`}
+        style={{ backgroundImage: 'url("/flags/gb.svg")', backgroundSize: '100% 100%' }}  
+        aria-label="English"
+      />
+    </div>
   );
 
   // Check if user has already submitted when component mounts
@@ -349,10 +354,9 @@ export default function App() {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               {t.age}
             </label>
-            <input
-              type="number"
-              min="16"
-              max="120"
+            <input              type="number"
+              min="12"
+              max="99"
               value={form.age}
               onChange={(e) => {
                 setForm({ ...form, age: e.target.value });
@@ -431,75 +435,85 @@ export default function App() {
 
   const q = QUESTIONS[step];
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 space-y-6">
-      <div className="flex justify-between items-center mb-8">
+    <div className="fixed inset-0 flex flex-col">
+      {/* Header - minimal fixed height */}
+      <div className="flex justify-between items-center h-8 px-2 shrink-0">
         <img 
           src="logo/notsoAI-logoLine.svg" 
           alt="NotSoAI Logo" 
-          className="h-5 w-auto"
+          className="h-4 w-auto"
         />
         <LanguageSelector />
       </div>
-      {/* Progress bar */}
-      <div className="w-full h-2 bg-gray-200 rounded-full relative">
+
+      {/* Progress bar - minimal fixed height */}
+      <div className="w-full h-1 bg-gray-200 relative shrink-0">
         <div 
           className="absolute left-0 top-0 h-full bg-green-600 transition-all duration-300 ease-out"
           style={{ width: `${((step + 1) / QUESTIONS.length) * 100}%` }}
         >
           <div 
-            className="absolute right-0 top-0 -translate-y-full translate-x-1/2 -mt-1
+            className="absolute right-0 top-0 -translate-y-full translate-x-1/2
                        bg-white shadow-sm border border-gray-200 
-                       rounded-full px-2 py-0.5 
-                       text-xs text-gray-600 whitespace-nowrap 
-                       transition-all duration-300 ease-out"
+                       rounded-full px-1.5 
+                       text-[10px] text-gray-600 whitespace-nowrap"
           >
             {step + 1}/{QUESTIONS.length}
           </div>
         </div>
       </div>
-      <h1 className="text-2xl font-bold">{t.questions[q.id]}</h1>
-      <p className="text-sm text-gray-600">
-        {t.dragInstructions}
-      </p>
-      <DndContext 
-        sensors={sensors}
-        onDragEnd={handleDragEnd}
-      >
-        <SortableContext
-          items={order}
-          strategy={rectSortingStrategy}
+
+      {/* Main content container - exact height for remaining space */}
+      <div className="flex flex-col px-2 pb-2 grow">
+        <h1 className="text-base md:text-lg font-bold leading-tight mt-2 mb-1 shrink-0">{t.questions[q.id]}</h1>
+        <p className="text-[11px] text-gray-600 leading-tight shrink-0 mb-2">
+          {t.dragInstructions}
+        </p>
+        
+        {/* Cards container - fills remaining space */}
+        <DndContext 
+          sensors={sensors}
+          onDragEnd={handleDragEnd}
         >
-          <div className="
-            grid
-            grid-cols-5
-            [@media(max-width:640px)_and_(orientation:portrait)]:grid-cols-1
-            gap-4 min-w-0 w-full
-          ">
-            {order.map((file, idx) => (
-              <SortableMascot
-                key={file}
-                id={file}
-                rank={idx + 1}
-                src={`mascots/${q.id}/${file}`}
-              />
-            ))}
-          </div>
-        </SortableContext>
-      </DndContext>
-      <div className="flex justify-between">
-        <button
-          onClick={back}
-          disabled={step === 0}
-          className="bg-gray-300 px-4 py-2 rounded disabled:opacity-50"
-        >
-          {t.backButton}
-        </button>
-        <button
-          onClick={next}
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-        >
-          {step < QUESTIONS.length - 1 ? t.nextButton : t.backgroundQuestions}
-        </button>
+          <SortableContext
+            items={order}
+            strategy={rectSortingStrategy}
+          >
+            <div className="
+              grid gap-1.5 
+              grid-cols-1
+              h-[calc(100%-0.5rem)]
+              portrait:grid-rows-5 portrait:grid-cols-1
+              landscape:grid-cols-5 landscape:grid-rows-1
+            ">
+              {order.map((file, idx) => (
+                <SortableMascot
+                  key={file}
+                  id={file}
+                  rank={idx + 1}
+                  src={`mascots/${q.id}/${file}`}
+                />
+              ))}
+            </div>
+          </SortableContext>
+        </DndContext>
+
+        {/* Navigation buttons - minimal height */}
+        <div className="flex justify-between mt-1 h-8 shrink-0">
+          <button
+            onClick={back}
+            disabled={step === 0}
+            className="bg-gray-300 px-2 py-1 text-xs rounded disabled:opacity-50"
+          >
+            {t.backButton}
+          </button>
+          <button
+            onClick={next}
+            className="bg-green-600 text-white px-2 py-1 text-xs rounded hover:bg-green-700"
+          >
+            {step < QUESTIONS.length - 1 ? t.nextButton : t.backgroundQuestions}
+          </button>
+        </div>
       </div>
     </div>
   );

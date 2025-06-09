@@ -31,4 +31,3 @@ This project is a simple web survey that lets participants rank mascots. It is b
 ```
 npm test
 ```
-

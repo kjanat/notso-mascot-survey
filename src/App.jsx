@@ -8,7 +8,6 @@ import {
 } from '@dnd-kit/core'
 import {
   SortableContext,
-  verticalListSortingStrategy,
   rectSortingStrategy
 } from '@dnd-kit/sortable'
 import { QUESTIONS } from './data/questions'
@@ -63,7 +62,6 @@ export const validateMascotRankings = (answers, questions) => {
 }
 
 export default function App () {
-  const [isMobile, setIsMobile] = React.useState(window.innerWidth <= 639)
   const [isVerified, setIsVerified] = React.useState(false)
   const [hasSubmitted, setHasSubmitted] = useState(false)
   const [privacyConsent, setPrivacyConsent] = useState(false)
@@ -72,12 +70,12 @@ export default function App () {
   const [order, setOrder] = useState([])
   const [form, setForm] = useState({ age: '', gender: '', education: '' })
   const [submitted, setSubmitted] = useState(false)
-  const [lang, setLang] = useState(() => localStorage.getItem('lang') || 'nl')
+  const [lang, setLang] = useState(() => window.localStorage.getItem('lang') || 'nl')
   const [formErrors, setFormErrors] = useState({})
 
   // Update localStorage when language changes
   React.useEffect(() => {
-    localStorage.setItem('lang', lang)
+    window.localStorage.setItem('lang', lang)
   }, [lang])
 
   const t = translations[lang]
@@ -128,7 +126,7 @@ export default function App () {
       if (step + 1 < QUESTIONS.length) {
         const nextQ = QUESTIONS[step + 1]
         nextQ.options.forEach(file => {
-          const img = new Image()
+          const img = new window.Image()
           img.src = `mascots/${nextQ.id}/${file}`
         })
       }

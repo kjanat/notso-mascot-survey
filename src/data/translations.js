@@ -3,6 +3,7 @@ export const translations = {
     title: 'Mascotte‑Survey',
     welcome:
       '👋 Welkom en bedankt dat je meedoet! Deze korte en interactieve enquête bestaat uit 12 vragen. Bij elke vraag zie je 5 mascottes. Sleep ze in de volgorde die voor jou het meest logisch voelt — van 1 (meest passend) tot 5 (minst passend). Niet te lang over nadenken: vertrouw op je eerste indruk!',
+    captchaPrompt: 'Verifieer dat je een mens bent',
     privacyTitle: 'Privacy Verklaring',
     privacyIntro:
       'Door deel te nemen aan deze enquête ga je akkoord met het volgende:',
@@ -79,6 +80,7 @@ export const translations = {
     title: 'Mascot Survey',
     welcome:
       "👋 Welcome and thank you for participating! This short interactive survey consists of 12 questions. For each question, you'll see 5 mascots. Drag them in the order that feels most logical to you — from 1 (most suitable) to 5 (least suitable). Don't think too long: trust your first impression!",
+    captchaPrompt: "Please verify that you're human",
     privacyTitle: 'Privacy Statement',
     privacyIntro:
       'By participating in this survey, you agree to the following:',

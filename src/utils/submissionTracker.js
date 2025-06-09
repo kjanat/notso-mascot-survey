@@ -19,17 +19,17 @@ export const hasUserSubmitted = async () => {
     return false
   }
   const fingerprint = await getFingerprint()
-  const submissions = JSON.parse(localStorage.getItem('surveySubmissions') || '{}')
+  const submissions = JSON.parse(window.localStorage.getItem('surveySubmissions') || '{}')
   return !!submissions[fingerprint]
 }
 
 // Mark survey as submitted
 export const markAsSubmitted = async () => {
   const fingerprint = await getFingerprint()
-  const submissions = JSON.parse(localStorage.getItem('surveySubmissions') || '{}')
+  const submissions = JSON.parse(window.localStorage.getItem('surveySubmissions') || '{}')
   submissions[fingerprint] = {
     timestamp: new Date().toISOString(),
     userAgent: navigator.userAgent
   }
-  localStorage.setItem('surveySubmissions', JSON.stringify(submissions))
+  window.localStorage.setItem('surveySubmissions', JSON.stringify(submissions))
 }

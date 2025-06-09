@@ -50,7 +50,6 @@ export const translations = {
       'Zorg ervoor dat alle mascottes zijn gerangschikt voordat je de enquête verstuurt.',
     submissionError:
       'Er is een fout opgetreden bij het versturen van de gegevens. Probeer het opnieuw.',
-    captchaPrompt: 'Verifieer dat je een mens bent',
     questions: {
       sales_type:
         'Je wint een make-over. Welke digitale assistent mag jouw stylist zijn?',
@@ -125,7 +124,6 @@ export const translations = {
       'Please rank all mascots before submitting the survey.',
     submissionError:
       'An error occurred while submitting. Please try again.',
-    captchaPrompt: "Please verify that you're human",
     questions: {
       sales_type:
         'You’ve won a makeover. Which digital assistant would you pick as your stylist?',

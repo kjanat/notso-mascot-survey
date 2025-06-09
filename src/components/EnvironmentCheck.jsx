@@ -1,4 +1,7 @@
 import { useEffect } from 'react'
+import { isEnvVariableTrue } from '../utils/env'
+  const disableSubmission = isEnvVariableTrue(import.meta.env.VITE_DISABLE_SUBMISSION_CHECK)
+  const disableCaptcha = isEnvVariableTrue(import.meta.env.VITE_DISABLE_CAPTCHA)
 
 const EnvironmentCheck = () => {
   const requiredVars = [

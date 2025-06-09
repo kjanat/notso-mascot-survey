@@ -1,4 +1,5 @@
 import FingerprintJS from '@fingerprintjs/fingerprintjs'
+import { isEnvVariableTrue } from './env'
 
 let fpPromise = null
 
@@ -15,7 +16,8 @@ const getFingerprint = async () => {
 // Check if user has submitted
 export const hasUserSubmitted = async () => {
   // In development mode with submission check disabled, always return false
-  if (import.meta.env.VITE_DISABLE_SUBMISSION_CHECK === 'true') {
+  const disableCheck = isEnvVariableTrue(import.meta.env.VITE_DISABLE_SUBMISSION_CHECK)
+  if (disableCheck) {
     return false
   }
   const fingerprint = await getFingerprint()

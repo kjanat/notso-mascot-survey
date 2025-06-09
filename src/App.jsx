@@ -233,8 +233,28 @@ export default function App () {
       alert(t.submissionError)
     }
   }
-
-  if (hasSubmitted || submitted) {
+  if (submitted) {
+    return (
+      <div className='p-8 space-y-4'>
+        <EnvironmentCheck />
+        <div className='flex justify-end mb-8'>
+          <LanguageSelector />
+        </div>
+        <div className='text-center'>
+          <div className='text-gray-600'>{t.thanks}</div>
+        </div>
+        <div className='flex justify-center mt-8'>
+          <img
+            src='logo/notsoAI-logoLine.svg'
+            alt='NotSoAI Logo'
+            className='h-5 w-auto'
+          />
+        </div>
+      </div>
+    )
+  }
+  
+  if (hasSubmitted) {
     return (
       <div className='p-8 space-y-4'>
         <EnvironmentCheck />
@@ -244,7 +264,6 @@ export default function App () {
         <div className='text-center'>
           <div className='text-xl'>{t.alreadySubmitted}</div>
           <div className='text-gray-600'>{t.noMultiple}</div>
-          <div className='text-gray-600'>{t.thanks}</div>
         </div>
         <div className='flex justify-center mt-8'>
           <img
@@ -279,25 +298,6 @@ export default function App () {
     )
   }
 
-  if (submitted) {
-    return (
-      <div className='p-8'>
-        <div className='flex justify-end mb-8'>
-          <LanguageSelector />
-        </div>
-        <div className='text-center text-xl'>
-          {t.thanks}
-        </div>
-        <div className='flex justify-center mt-8'>
-          <img
-            src='logo/notsoAI-logoLine.svg'
-            alt='NotSoAI Logo'
-            className='h-5 w-auto'
-          />
-        </div>
-      </div>
-    )
-  }
 
   if (step === 'intro') {
     return (

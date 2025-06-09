@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
+import { isEnvVariableTrue } from '../utils/env'
 
 const CaptchaVerification = ({ onVerify, prompt }) => {
   useEffect(() => {
     // If CAPTCHA is disabled, automatically verify
-    if (import.meta.env.VITE_DISABLE_CAPTCHA === 'true') {
+    if (isEnvVariableTrue(import.meta.env.VITE_DISABLE_CAPTCHA)) {
       onVerify(true)
     }
   }, [onVerify])
 
   // If CAPTCHA is disabled, don't render the component
-  if (import.meta.env.VITE_DISABLE_CAPTCHA === 'true') {
+  if (isEnvVariableTrue(import.meta.env.VITE_DISABLE_CAPTCHA)) {
     return null
   }
 

@@ -1,15 +1,19 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { isEnvVariableTrue } from '../utils/env'
   const disableSubmission = isEnvVariableTrue(import.meta.env.VITE_DISABLE_SUBMISSION_CHECK)
   const disableCaptcha = isEnvVariableTrue(import.meta.env.VITE_DISABLE_CAPTCHA)
 
 const EnvironmentCheck = () => {
+  const hasLogged = useRef(false)
   const requiredVars = [
     { key: 'VITE_SHEET_DB_API', name: 'SheetDB API Endpoint' },
     { key: 'VITE_RECAPTCHA_SITE_KEY', name: 'reCAPTCHA Site Key' }
   ]
 
   useEffect(() => {
+    if (hasLogged.current) return
+    hasLogged.current = true
+
     const missingVars = requiredVars
       .filter(({ key }) => !import.meta.env[key])
       .map(v => v.name)
@@ -34,9 +38,6 @@ const EnvironmentCheck = () => {
         `EnvironmentCheck flags: VITE_DISABLE_SUBMISSION_CHECK=${String(import.meta.env.VITE_DISABLE_SUBMISSION_CHECK)}, VITE_DISABLE_CAPTCHA=${String(import.meta.env.VITE_DISABLE_CAPTCHA)}`
       )
     }
-
-    // Example output:
-    // EnvironmentCheck: disabled features -> CAPTCHA
   }, [])
 
   // Nothing is rendered; diagnostics are logged to the console

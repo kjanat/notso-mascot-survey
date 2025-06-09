@@ -37,7 +37,7 @@ describe('SortableMascot', () => {
   it('uses fallback image when asset fails to load', () => {
     act(() => {
       createRoot(container).render(
-        <SortableMascot id="friend_type-man.png" src="invalid.png" rank={1} />
+        <SortableMascot id='friend_type-man.png' src='invalid.png' rank={1} />
       )
     })
 

@@ -63,7 +63,7 @@ export default function SortableMascot ({ id, src, rank }) {
       '
       >
         <img
-          src={fallback ? 'mascots/missing.jpg' : src}
+          src={fallback ? 'mascots/missing.png' : src}
           alt={label}
           className='h-full w-full object-contain'
           onError={() => setFallback(true)}

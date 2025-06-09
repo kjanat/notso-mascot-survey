@@ -87,16 +87,26 @@ export default function App() {
     <div className="flex gap-1">
       <button
         onClick={() => setLang('nl')} 
-        className={`w-7 h-5 bg-cover bg-center rounded-sm border ${lang === 'nl' ? 'border-blue-500 shadow' : 'border-gray-300'}`}
-        style={{ backgroundImage: 'url("/flags/nl.svg")', backgroundSize: '100% 100%' }}
-        aria-label="Nederlands"
-      />
+        className={`w-7 h-5 overflow-hidden rounded-sm border ${lang === 'nl' ? 'border-blue-500 shadow' : 'border-gray-300'}`}
+      >
+        <img 
+          src="/flags/nl.svg" 
+          alt="Nederlands"
+          className="w-full h-full"
+          style={{ objectFit: 'fill' }}
+        />
+      </button>
       <button  
         onClick={() => setLang('en')}
-        className={`w-7 h-5 bg-cover bg-center rounded-sm border ${lang === 'en' ? 'border-blue-500 shadow' : 'border-gray-300'}`}
-        style={{ backgroundImage: 'url("/flags/gb.svg")', backgroundSize: '100% 100%' }}  
-        aria-label="English"
-      />
+        className={`w-7 h-5 overflow-hidden rounded-sm border ${lang === 'en' ? 'border-blue-500 shadow' : 'border-gray-300'}`}
+      >
+        <img 
+          src="/flags/gb.svg" 
+          alt="English"
+          className="w-full h-full"
+          style={{ objectFit: 'fill' }}
+        />
+      </button>
     </div>
   );
 

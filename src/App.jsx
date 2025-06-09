@@ -265,7 +265,7 @@ export default function App () {
         </div>
         <div className='text-center'>
           <h1 className='text-3xl font-bold'>{t.title}</h1>
-          <CaptchaVerification onVerify={setIsVerified} t={t} />
+          <CaptchaVerification onVerify={setIsVerified} prompt={t.captchaPrompt} />
         </div>
         <div className='flex justify-center mt-8'>
           <img

@@ -7,6 +7,10 @@ const EnvironmentCheck = () => {
     { key: 'VITE_RECAPTCHA_SITE_KEY', name: 'reCAPTCHA Site Key' }
   ]
 
+  const disableSubmission = import.meta.env.VITE_DISABLE_SUBMISSION_CHECK === 'true'
+  const disableCaptcha = import.meta.env.VITE_DISABLE_CAPTCHA === 'true'
+  const isDutch = window.location.hostname.includes('nl')
+
   // Check each required variable
   requiredVars.forEach(({ key, name }) => {
     if (!import.meta.env[key]) {
@@ -14,10 +18,7 @@ const EnvironmentCheck = () => {
     }
   })
 
-  const disableSubmissionCheck = import.meta.env.VITE_DISABLE_SUBMISSION_CHECK === 'true'
-  const disableCaptcha = import.meta.env.VITE_DISABLE_CAPTCHA === 'true'
-
-  if (missingVars.length === 0 && !disableSubmissionCheck && !disableCaptcha) {
+  if (missingVars.length === 0 && !disableSubmission && !disableCaptcha) {
     return null
   }
 
@@ -25,9 +26,9 @@ const EnvironmentCheck = () => {
     <div className='space-y-2 mb-4'>
       {missingVars.length > 0 && (
         <div className='bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative' role='alert'>
-          <strong className='font-bold'>⚠️ Waarschuwing / Warning: </strong>
+          <strong className='font-bold'>⚠️ {isDutch ? 'Waarschuwing' : 'Warning'}: </strong>
           <span className='block sm:inline'>
-            {window.location.hostname.includes('nl') ? (
+            {isDutch ? (
               <>
                 De volgende omgevingsvariabelen ontbreken. De enquête zal niet werken zonder deze:
                 <ul className='list-disc list-inside mt-2'>
@@ -46,15 +47,15 @@ const EnvironmentCheck = () => {
         </div>
       )}
 
-      {(disableSubmissionCheck || disableCaptcha) && (
+      {(disableSubmission || disableCaptcha) && (
         <div className='bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative' role='alert'>
-          <strong className='font-bold'>ℹ️ {window.location.hostname.includes('nl') ? 'Informatie' : 'Info'}: </strong>
+          <strong className='font-bold'>ℹ️ {isDutch ? 'Informatie' : 'Info'}: </strong>
           <span className='block sm:inline'>
-            {disableSubmissionCheck && (
-              <>{window.location.hostname.includes('nl') ? 'Inzendingcontrole uitgeschakeld' : 'Submission check disabled'}{disableCaptcha ? '; ' : ''}</>
+            {disableSubmission && (
+              <>{isDutch ? 'Inzendingcontrole uitgeschakeld' : 'Submission check disabled'}{disableCaptcha ? '; ' : ''}</>
             )}
             {disableCaptcha && (
-              <>{window.location.hostname.includes('nl') ? 'CAPTCHA uitgeschakeld' : 'CAPTCHA disabled'}</>
+              <>{isDutch ? 'CAPTCHA uitgeschakeld' : 'CAPTCHA disabled'}</>
             )}
           </span>
         </div>

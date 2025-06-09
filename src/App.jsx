@@ -89,7 +89,7 @@ export default function App () {
         className={`w-7 h-5 overflow-hidden rounded-sm border ${lang === 'nl' ? 'border-blue-500 shadow' : 'border-gray-300'}`}
       >
         <img
-          src='/flags/nl.svg'
+          src='flags/nl.svg'
           alt='Nederlands'
           className='w-full h-full'
           style={{ objectFit: 'fill' }}
@@ -100,7 +100,7 @@ export default function App () {
         className={`w-7 h-5 overflow-hidden rounded-sm border ${lang === 'en' ? 'border-blue-500 shadow' : 'border-gray-300'}`}
       >
         <img
-          src='/flags/gb.svg'
+          src='flags/gb.svg'
           alt='English'
           className='w-full h-full'
           style={{ objectFit: 'fill' }}
@@ -253,7 +253,7 @@ export default function App () {
       </div>
     )
   }
-  
+
   if (hasSubmitted) {
     return (
       <div className='p-8 space-y-4'>
@@ -297,7 +297,6 @@ export default function App () {
       </div>
     )
   }
-
 
   if (step === 'intro') {
     return (

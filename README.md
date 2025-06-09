@@ -1,29 +1,33 @@
 # Mascot Survey
 
-This project is a Vite + React application for gathering feedback about the TU Delft library mascot. The survey stores responses via a SheetDB API and uses Google reCAPTCHA to prevent spam.
+This project is a simple web survey that lets participants rank mascots. It is built with Vite and React.
 
-## Getting Started
+## Setup
 
-1. **Install dependencies**
-   ```bash
+1. Install dependencies:
+   ```
    npm install
    ```
-2. **Run the development server**
-   ```bash
+2. Copy `.env.example` to `.env` and adjust the values:
+   - `VITE_SHEET_DB_API` – SheetDB API endpoint used to store results.
+   - `VITE_RECAPTCHA_SITE_KEY` – reCAPTCHA site key.
+   - `VITE_DISABLE_SUBMISSION_CHECK` – set to `true` during development to allow multiple submissions.
+   - `VITE_DISABLE_CAPTCHA` – set to `true` to disable CAPTCHA locally.
+
+   **Note:** Environment variables are read when the dev server starts. Restart or rebuild after making changes.
+
+3. Run the development server:
+   ```
    npm run dev
    ```
-3. **Build for production**
-   ```bash
+
+4. Build for production:
+   ```
    npm run build
    ```
 
-## Environment Variables
+## Running Tests
 
-Copy `.env.example` to `.env` and provide values for the variables listed below:
-
-- `VITE_SHEET_DB_API` – URL of the SheetDB API endpoint used to store survey results.
-- `VITE_RECAPTCHA_SITE_KEY` – Google reCAPTCHA site key used to verify submissions.
-- `VITE_DISABLE_SUBMISSION_CHECK` – Defaults to `false` to enforce one-time submission; set to `true` to disable this check.
-- `VITE_DISABLE_CAPTCHA` – Set to `true` to disable the CAPTCHA locally.
-
-Environment variables are read when the server starts. After changing a variable, restart the dev server or rebuild the project for the new values to take effect.
+```
+npm test
+```

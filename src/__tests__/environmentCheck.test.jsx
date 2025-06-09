@@ -5,13 +5,19 @@ import { act } from 'react-dom/test-utils'
 let EnvironmentCheck
 
 let container
+let infoSpy
+let warnSpy
 
 beforeEach(() => {
   container = document.createElement('div')
   document.body.appendChild(container)
+  infoSpy = vi.spyOn(console, 'info').mockImplementation(() => {})
+  warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
 })
 
 afterEach(() => {
+  infoSpy.mockRestore()
+  warnSpy.mockRestore()
   container.remove()
   container = null
 })
@@ -26,7 +32,7 @@ async function renderWithEnv (env) {
 }
 
 describe('EnvironmentCheck', () => {
-  it('shows info banner when submission check disabled', async () => {
+  it('logs info when submission check disabled', async () => {
     await renderWithEnv({
       VITE_SHEET_DB_API: 'api',
       VITE_RECAPTCHA_SITE_KEY: 'key',
@@ -34,13 +40,11 @@ describe('EnvironmentCheck', () => {
       VITE_DISABLE_CAPTCHA: 'false'
     })
 
-    const text = container.textContent
-    expect(text).toContain('Submission check disabled')
-    expect(text).toContain('VITE_DISABLE_SUBMISSION_CHECK: true')
-    expect(text).toContain('VITE_DISABLE_CAPTCHA: false')
+    expect(infoSpy.mock.calls.join(' ')).toContain('submission check')
+    expect(warnSpy).not.toHaveBeenCalled()
   })
 
-  it('shows info banner when captcha disabled', async () => {
+  it('logs info when captcha disabled', async () => {
     await renderWithEnv({
       VITE_SHEET_DB_API: 'api',
       VITE_RECAPTCHA_SITE_KEY: 'key',
@@ -48,13 +52,11 @@ describe('EnvironmentCheck', () => {
       VITE_DISABLE_CAPTCHA: 'true'
     })
 
-    const text = container.textContent
-    expect(text).toContain('CAPTCHA disabled')
-    expect(text).toContain('VITE_DISABLE_SUBMISSION_CHECK: false')
-    expect(text).toContain('VITE_DISABLE_CAPTCHA: true')
+    expect(infoSpy.mock.calls.join(' ')).toContain('CAPTCHA')
+    expect(warnSpy).not.toHaveBeenCalled()
   })
 
-  it('shows combined info when both flags disabled', async () => {
+  it('logs combined info when both flags disabled', async () => {
     await renderWithEnv({
       VITE_SHEET_DB_API: 'api',
       VITE_RECAPTCHA_SITE_KEY: 'key',
@@ -62,10 +64,9 @@ describe('EnvironmentCheck', () => {
       VITE_DISABLE_CAPTCHA: 'true'
     })
 
-    const text = container.textContent
-    expect(text).toContain('Submission check disabled')
-    expect(text).toContain('CAPTCHA disabled')
-    expect(text).toContain('VITE_DISABLE_SUBMISSION_CHECK: true')
-    expect(text).toContain('VITE_DISABLE_CAPTCHA: true')
+    const output = infoSpy.mock.calls.join(' ')
+    expect(output).toContain('submission check')
+    expect(output).toContain('CAPTCHA')
+    expect(warnSpy).not.toHaveBeenCalled()
   })
 })

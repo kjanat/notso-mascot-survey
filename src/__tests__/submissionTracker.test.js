@@ -14,7 +14,7 @@ beforeEach(() => {
 
 async function loadTracker (env) {
   vi.resetModules()
-  Object.assign(process.env, env)
+  vi.stubEnv(env)
   return await import('../utils/submissionTracker')
 }
 

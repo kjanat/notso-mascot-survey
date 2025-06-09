@@ -15,6 +15,7 @@ This project is a simple web survey that lets participants rank mascots. It is b
    - `VITE_DISABLE_CAPTCHA` – set to `true` to disable CAPTCHA locally.
 
    **Note:** Environment variables are read when the dev server starts. Restart or rebuild after making changes.
+   Environment diagnostics are printed to the browser console when the app loads.
 
 3. Run the development server:
    ```

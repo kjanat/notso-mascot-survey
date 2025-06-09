@@ -15,7 +15,8 @@ const getFingerprint = async () => {
 // Check if user has submitted
 export const hasUserSubmitted = async () => {
   // In development mode with submission check disabled, always return false
-  if (import.meta.env.VITE_DISABLE_SUBMISSION_CHECK === 'true') {
+  const disableCheck = String(import.meta.env.VITE_DISABLE_SUBMISSION_CHECK) === 'true'
+  if (disableCheck) {
     return false
   }
   const fingerprint = await getFingerprint()

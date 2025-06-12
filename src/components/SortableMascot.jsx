@@ -19,7 +19,7 @@ export default function SortableMascot ({ id, src, rank }) {
     zIndex: isDragging ? 2 : 1
   }
 
-  const type = id.split('-')[1].replace('.png', '')
+  const type = id.split('-')[1].replace('.webp', '')
   const lang = window.localStorage.getItem('lang') || 'nl'
   const label = LABEL_MAP[lang]?.[type] ?? 'Mascotte'
   const [fallback, setFallback] = useState(false)
@@ -63,7 +63,7 @@ export default function SortableMascot ({ id, src, rank }) {
       '
       >
         <img
-          src={fallback ? 'mascots/missing.png' : src}
+          src={fallback ? 'mascots/missing.webp' : src}
           alt={label}
           className='h-full w-full object-contain'
           onError={() => setFallback(true)}

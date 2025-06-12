@@ -19,8 +19,8 @@ export const TOPICS = [
 export const QUESTIONS = TOPICS.map((id) => ({
   id,
   options: id.endsWith('_type')
-    ? CHARACTER_TYPES.map((t) => `${id}-${t}.png`)
-    : STYLE_TYPES.map((s) => `${id}-${s}.png`)
+    ? CHARACTER_TYPES.map((t) => `${id}-${t}.webp`)
+    : STYLE_TYPES.map((s) => `${id}-${s}.webp`)
 }))
 
 export const LABEL_MAP = {

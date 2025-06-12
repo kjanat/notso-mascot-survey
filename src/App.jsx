@@ -606,7 +606,7 @@ export default function App () {
               grid gap-1.5
               grid-cols-1
               h-[calc(100%-0.5rem)]
-              portrait:grid-rows-5 portrait:grid-cols-1
+              portrait:grid-rows-5 portrait:grid-cols-1 portrait:place-items-center
               landscape:grid-cols-5 landscape:grid-rows-1
             '
             >

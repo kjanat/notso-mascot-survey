@@ -28,7 +28,7 @@ export default function SortableMascot ({ id, src, rank }) {
       {...listeners}
       className={`
         relative bg-white rounded-md
-        flex portrait:flex-row landscape:flex-col
+        flex portrait:flex-row portrait:justify-center landscape:flex-col
         items-center
         w-full h-full
         ${isDragging ? 'shadow-lg' : 'shadow-sm'}
@@ -52,7 +52,7 @@ export default function SortableMascot ({ id, src, rank }) {
 
       {/* Image container */}
       <div className='
-        portrait:h-full portrait:w-20
+        portrait:h-full portrait:w-20 portrait:mx-auto
         landscape:w-full landscape:h-[calc(100%-1rem)]
         flex items-center justify-center
         flex-shrink-0
@@ -61,7 +61,7 @@ export default function SortableMascot ({ id, src, rank }) {
         <img
           src={fallback ? 'mascots/missing.webp' : src}
           alt="Mascot"
-          className='h-full w-full object-contain'
+          className='h-full w-full object-contain portrait:max-w-full'
           onError={() => setFallback(true)}
           draggable={false}
         />

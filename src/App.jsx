@@ -477,7 +477,24 @@ export default function App () {
 
       {/* Main content container - exact height for remaining space */}
       <div className='flex flex-col px-2 pb-2 grow'>
-        <h1 className='text-base md:text-lg font-bold leading-tight mt-2 mb-1 shrink-0'>{t.questions[q.id]}</h1>
+        <div className='flex justify-between items-center shrink-0 mt-2 mb-1'>
+          <h1 className='text-base md:text-lg font-bold leading-tight'>{t.questions[q.id]}</h1>
+          <div className='flex gap-2'>
+            <button
+              onClick={back}
+              disabled={step === 0}
+              className='bg-gray-300 px-2 py-1 text-xs rounded disabled:opacity-50'
+            >
+              {t.backButton}
+            </button>
+            <button
+              onClick={next}
+              className='bg-green-600 text-white px-2 py-1 text-xs rounded hover:bg-green-700'
+            >
+              {step < QUESTIONS.length - 1 ? t.nextButton : t.backgroundQuestions}
+            </button>
+          </div>
+        </div>
         <p className='text-[11px] text-gray-600 leading-tight shrink-0 mb-2'>
           {t.dragInstructions}
         </p>
@@ -510,23 +527,6 @@ export default function App () {
             </div>
           </SortableContext>
         </DndContext>
-
-        {/* Navigation buttons - minimal height */}
-        <div className='flex justify-between mt-1 h-8 shrink-0'>
-          <button
-            onClick={back}
-            disabled={step === 0}
-            className='bg-gray-300 px-2 py-1 text-xs rounded disabled:opacity-50'
-          >
-            {t.backButton}
-          </button>
-          <button
-            onClick={next}
-            className='bg-green-600 text-white px-2 py-1 text-xs rounded hover:bg-green-700'
-          >
-            {step < QUESTIONS.length - 1 ? t.nextButton : t.backgroundQuestions}
-          </button>
-        </div>
       </div>
     </div>
   )

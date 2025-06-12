@@ -50,6 +50,14 @@ export const translations = {
       'Zorg ervoor dat alle mascottes zijn gerangschikt voordat je de enquête verstuurt.',
     submissionError:
       'Er is een fout opgetreden bij het versturen van de gegevens. Probeer het opnieuw.',
+    prizeTitle: '🎁 Win een gratis mascotte!',
+    prizeDescription: 'Deel je idee voor een coole mascotte en maak kans op een gratis exemplaar! Laat hieronder je gegevens achter.',
+    prizeName: 'Je naam',
+    prizeEmail: 'Je email',
+    prizeIdea: 'Jouw mascotte idee',
+    prizeNamePlaceholder: 'Vul je naam in',
+    prizeEmailPlaceholder: 'Vul je email in',
+    prizeIdeaPlaceholder: 'Beschrijf je idee voor een coole mascotte...',
     questions: {
       sales_type:
         'Je wint een make-over. Welke digitale assistent mag jouw stylist zijn?',
@@ -124,9 +132,17 @@ export const translations = {
       'Please rank all mascots before submitting the survey.',
     submissionError:
       'An error occurred while submitting. Please try again.',
+    prizeTitle: '🎁 Win a free mascot!',
+    prizeDescription: 'Share your idea for a cool mascot and win a free copy! Leave your details below.',
+    prizeName: 'Your name',
+    prizeEmail: 'Your email',
+    prizeIdea: 'Your mascot idea',
+    prizeNamePlaceholder: 'Enter your name',
+    prizeEmailPlaceholder: 'Enter your email',
+    prizeIdeaPlaceholder: 'Describe your idea for a cool mascot...',
     questions: {
       sales_type:
-        'You’ve won a makeover. Which digital assistant would you pick as your stylist?',
+        "You've won a makeover. Which digital assistant would you pick as your stylist?",
       friend_type: 'Which AI buddy would you choose as your digital friend?',
       coach_type: 'Which virtual coach would you train with at the gym?',
       support_type:
@@ -134,14 +150,14 @@ export const translations = {
       mental_type:
         'During a breathing exercise, one AI figure appears. Who do you prefer?',
       hr_type:
-        'It’s your first day at work. Who do you want as your digital buddy?',
+        "It's your first day at work. Who do you want as your digital buddy?",
       sales_style:
-        'You’re browsing sneakers. Which visual guide would you like to see?',
+        "You're browsing sneakers. Which visual guide would you like to see?",
       friend_style:
         'You get a daily message from a digital friend. Which one makes you smile?',
       coach_style: 'Which AI coach would push you the most in a fitness app?',
       support_style:
-        'You’re stuck in a webshop. Who do you want as your digital helper?',
+        "You're stuck in a webshop. Who do you want as your digital helper?",
       mental_style:
         'During meditation, one figure appears on screen. Who feels most calming?',
       hr_style:

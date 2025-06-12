@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { LABEL_MAP } from '../data/questions'
 
 export default function SortableMascot ({ id, src, rank }) {
   const {
@@ -19,9 +18,6 @@ export default function SortableMascot ({ id, src, rank }) {
     zIndex: isDragging ? 2 : 1
   }
 
-  const type = id.split('-')[1].replace('.webp', '')
-  const lang = window.localStorage.getItem('lang') || 'nl'
-  const label = LABEL_MAP[lang]?.[type] ?? 'Mascotte'
   const [fallback, setFallback] = useState(false)
 
   return (
@@ -64,24 +60,11 @@ export default function SortableMascot ({ id, src, rank }) {
       >
         <img
           src={fallback ? 'mascots/missing.webp' : src}
-          alt={label}
+          alt="Mascot"
           className='h-full w-full object-contain'
           onError={() => setFallback(true)}
           draggable={false}
         />
-      </div>
-
-      {/* Label */}
-      <div className='
-        portrait:pl-px portrait:flex-1
-        landscape:w-full landscape:h-3
-        landscape:text-center
-        truncate
-        text-[10px] leading-none
-        text-gray-700 font-medium
-      '
-      >
-        {label}
       </div>
     </div>
   )

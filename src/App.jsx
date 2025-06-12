@@ -470,29 +470,29 @@ export default function App () {
             {/* Prize Giveaway Section */}
             <div className='mt-8 pt-6 border-t border-gray-200'>
               <div className='bg-blue-50 p-4 rounded-lg mb-4'>
-                <h2 className='text-lg font-semibold text-blue-800 mb-2'>🎁 Win een gratis mascotte!</h2>
+                <h2 className='text-lg font-semibold text-blue-800 mb-2'>{t.prizeTitle}</h2>
                 <p className='text-sm text-blue-700 mb-4'>
-                  Deel je idee voor een coole mascotte en maak kans op een gratis exemplaar! Laat hieronder je gegevens achter.
+                  {t.prizeDescription}
                 </p>
               </div>
               
               <div className='space-y-4'>
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-1'>
-                    Je naam
+                    {t.prizeName}
                   </label>
                   <input
                     type='text'
                     value={form.prizeName}
                     onChange={(e) => setForm({ ...form, prizeName: e.target.value })}
                     className='w-full p-2 border rounded'
-                    placeholder='Vul je naam in'
+                    placeholder={t.prizeNamePlaceholder}
                   />
                 </div>
                 
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-1'>
-                    Je email
+                    {t.prizeEmail}
                   </label>
                   <input
                     type='email'
@@ -502,7 +502,7 @@ export default function App () {
                       setFormErrors({ ...formErrors, prizeEmail: null })
                     }}
                     className={`w-full p-2 border rounded ${formErrors.prizeEmail ? 'border-red-500' : ''}`}
-                    placeholder='Vul je email in'
+                    placeholder={t.prizeEmailPlaceholder}
                   />
                   {formErrors.prizeEmail && (
                     <p className='mt-1 text-sm text-red-600'>{formErrors.prizeEmail}</p>
@@ -511,14 +511,14 @@ export default function App () {
                 
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-1'>
-                    Jouw mascotte idee
+                    {t.prizeIdea}
                   </label>
                   <textarea
                     value={form.mascotIdea}
                     onChange={(e) => setForm({ ...form, mascotIdea: e.target.value })}
                     className='w-full p-2 border rounded'
                     rows='3'
-                    placeholder='Beschrijf je idee voor een coole mascotte...'
+                    placeholder={t.prizeIdeaPlaceholder}
                   />
                 </div>
               </div>

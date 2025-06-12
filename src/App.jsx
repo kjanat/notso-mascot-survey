@@ -100,7 +100,7 @@ export default function App () {
       }, 1000)
       return () => clearTimeout(timer)
     } else if (submitted && redirectCountdown === 0) {
-      window.location.href = 'https://notso.ai'
+      window.location.href = 'https://www.notso.ai'
     }
   }, [submitted, redirectCountdown])
 
@@ -286,7 +286,7 @@ export default function App () {
         <div className='flex justify-center mt-8'>
           <img
             src='logo/notsoAI-logoLine.svg'
-            alt='NotSoAI Logo'
+            alt='Notso AI Logo'
             className='h-5 w-auto'
           />
         </div>
@@ -308,7 +308,7 @@ export default function App () {
         <div className='flex justify-center mt-8'>
           <img
             src='logo/notsoAI-logoLine.svg'
-            alt='NotSoAI Logo'
+            alt='Notso AI Logo'
             className='h-5 w-auto'
           />
         </div>
@@ -330,7 +330,7 @@ export default function App () {
         <div className='flex justify-center mt-8'>
           <img
             src='logo/notsoAI-logoLine.svg'
-            alt='NotSoAI Logo'
+            alt='Notso AI Logo'
             className='h-5 w-auto'
           />
         </div>
@@ -382,7 +382,7 @@ export default function App () {
         <div className='flex justify-center mt-8'>
           <img
             src='logo/notsoAI-logoLine.svg'
-            alt='NotSoAI Logo'
+            alt='Notso AI Logo'
             className='h-5 w-auto'
           />
         </div>
@@ -397,7 +397,7 @@ export default function App () {
         <div className='flex justify-between items-center h-8 px-2 shrink-0'>
           <img
             src='logo/notsoAI-logoLine.svg'
-            alt='NotSoAI Logo'
+            alt='Notso AI Logo'
             className='h-4 w-auto'
           />
           <LanguageSelector />
@@ -562,7 +562,7 @@ export default function App () {
       <div className='flex justify-between items-center h-8 px-2 shrink-0'>
         <img
           src='logo/notsoAI-logoLine.svg'
-          alt='NotSoAI Logo'
+          alt='Notso AI Logo'
           className='h-4 w-auto'
         />
         <LanguageSelector />

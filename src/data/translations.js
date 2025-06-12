@@ -1,6 +1,6 @@
 export const translations = {
   nl: {
-    title: 'Mascotte‑Survey',
+    title: 'Mascotte Survey',
     welcome:
       '👋 Welkom en bedankt dat je meedoet! Deze korte en interactieve enquête bestaat uit 12 vragen. Bij elke vraag zie je 5 mascottes. Sleep ze in de volgorde die voor jou het meest logisch voelt — van 1 (meest passend) tot 5 (minst passend). Niet te lang over nadenken: vertrouw op je eerste indruk!',
     captchaPrompt: 'Verifieer dat je een mens bent',
@@ -46,7 +46,7 @@ export const translations = {
     noMultiple:
       'Het is niet mogelijk om de enquête meerdere keren in te vullen.',
     thanks: 'Bedankt voor je deelname! 🎉',
-    redirecting: 'Je wordt doorverwezen naar https://notso.ai in {seconds} seconden...',
+    redirecting: 'Je wordt doorverwezen naar notso.ai in {seconds} seconden...',
     rankingsIncomplete:
       'Zorg ervoor dat alle mascottes zijn gerangschikt voordat je de enquête verstuurt.',
     submissionError:
@@ -129,7 +129,7 @@ export const translations = {
     alreadySubmitted: 'You have already completed this survey.',
     noMultiple: 'It is not possible to complete the survey multiple times.',
     thanks: 'Thank you for participating! 🎉',
-    redirecting: 'Redirecting you to https://notso.ai in {seconds} seconds...',
+    redirecting: 'Redirecting you to notso.ai in {seconds} seconds...',
     rankingsIncomplete:
       'Please rank all mascots before submitting the survey.',
     submissionError:

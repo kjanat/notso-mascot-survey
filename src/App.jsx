@@ -37,6 +37,11 @@ const validateForm = (form) => {
     errors.education = 'Opleiding is verplicht'
   }
 
+  // Email validation (only if provided)
+  if (form.prizeEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.prizeEmail)) {
+    errors.prizeEmail = 'Voer een geldig emailadres in'
+  }
+
   return errors
 }
 
@@ -69,7 +74,14 @@ export default function App () {
   const [step, setStep] = useState('intro')
   const [answers, setAnswers] = useState({})
   const [order, setOrder] = useState([])
-  const [form, setForm] = useState({ age: '', gender: '', education: '' })
+  const [form, setForm] = useState({ 
+    age: '', 
+    gender: '', 
+    education: '',
+    prizeName: '',
+    prizeEmail: '',
+    mascotIdea: ''
+  })
   const [submitted, setSubmitted] = useState(false)
   const [lang, setLang] = useState(() => window.localStorage.getItem('lang') || 'nl')
   const [formErrors, setFormErrors] = useState({})
@@ -196,19 +208,29 @@ export default function App () {
         return acc
       }, {})
 
-      // Prepare the data in SheetDB format
-      const payload = {
-        data: [{
-          timestamp: new Date().toISOString(),
-          age: form.age,
-          gender: form.gender,
-          education: form.education,
-          userAgent: navigator.userAgent,
-          ...formattedAnswers
-        }]
+      // Create the data object with all fields
+      const submissionData = {
+        timestamp: new Date().toISOString(),
+        age: form.age,
+        gender: form.gender,
+        education: form.education,
+        userAgent: navigator.userAgent,
+        prize_name: form.prizeName || '',
+        prize_email: form.prizeEmail || '',
+        mascot_idea: form.mascotIdea || '',
+        ...formattedAnswers
       }
 
-      console.log('Submitting data:', payload)
+      // Log the data being sent
+      console.log('Submission data:', submissionData)
+
+      // Prepare the data in SheetDB format
+      const payload = {
+        data: [submissionData]
+      }
+
+      // Log the full payload
+      console.log('Full payload:', payload)
 
       const response = await fetch(import.meta.env.VITE_SHEET_DB_API, {
         method: 'POST',
@@ -220,7 +242,9 @@ export default function App () {
       })
 
       if (!response.ok) {
-        throw new Error(`Submission failed: ${response.status}`)
+        const errorText = await response.text()
+        console.error('API Error Response:', errorText)
+        throw new Error(`Submission failed: ${response.status} - ${errorText}`)
       }
 
       const result = await response.json()
@@ -352,94 +376,164 @@ export default function App () {
 
   if (step === 'form') {
     return (
-      <div className='max-w-6xl mx-auto px-4 sm:px-8 py-8 space-y-6'>
-        <div className='flex justify-end mb-8'>
-          <LanguageSelector />
-        </div>
-        <div className='text-center mb-8'>
-          <h1 className='text-2xl font-bold'>{t.finalQuestions}</h1>
-        </div>
-        <div className='max-w-md mx-auto space-y-4'>
-          <div>
-            <label className='block text-sm font-medium text-gray-700 mb-1'>
-              {t.age}
-            </label>
-            <input
-              type='number'
-              min='12'
-              max='99'
-              value={form.age}
-              onChange={(e) => {
-                setForm({ ...form, age: e.target.value })
-                setFormErrors({ ...formErrors, age: null })
-              }}
-              className={`w-full p-2 border rounded ${formErrors.age ? 'border-red-500' : ''}`}
-            />
-            {formErrors.age && (
-              <p className='mt-1 text-sm text-red-600'>{formErrors.age}</p>
-            )}
-          </div>
-          <div>
-            <label className='block text-sm font-medium text-gray-700 mb-1'>
-              {t.gender}
-            </label>
-            <select
-              value={form.gender}
-              onChange={(e) => {
-                setForm({ ...form, gender: e.target.value })
-                setFormErrors({ ...formErrors, gender: null })
-              }}
-              className={`w-full p-2 border rounded ${formErrors.gender ? 'border-red-500' : ''}`}
-            >
-              <option value=''>{t.genderOptions.placeholder}</option>
-              <option value='male'>{t.genderOptions.male}</option>
-              <option value='female'>{t.genderOptions.female}</option>
-              <option value='other'>{t.genderOptions.other}</option>
-            </select>
-            {formErrors.gender && (
-              <p className='mt-1 text-sm text-red-600'>{formErrors.gender}</p>
-            )}
-          </div>
-          <div>
-            <label className='block text-sm font-medium text-gray-700 mb-1'>
-              {t.education}
-            </label>
-            <select
-              value={form.education}
-              onChange={(e) => {
-                setForm({ ...form, education: e.target.value })
-                setFormErrors({ ...formErrors, education: null })
-              }}
-              className={`w-full p-2 border rounded ${formErrors.education ? 'border-red-500' : ''}`}
-            >
-              <option value=''>{t.educationOptions.placeholder}</option>
-              <option value='primary'>{t.educationOptions.primary}</option>
-              <option value='vmbo'>{t.educationOptions.vmbo}</option>
-              <option value='havo'>{t.educationOptions.havo}</option>
-              <option value='vwo'>{t.educationOptions.vwo}</option>
-              <option value='hbo'>{t.educationOptions.hbo}</option>
-              <option value='uni'>{t.educationOptions.uni}</option>
-            </select>
-            {formErrors.education && (
-              <p className='mt-1 text-sm text-red-600'>{formErrors.education}</p>
-            )}
-          </div>
-          <div className='pt-4'>
-            <button
-              onClick={submit}
-              disabled={!form.age || !form.gender || !form.education}
-              className='w-full bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed'
-            >
-              {t.submitButton}
-            </button>
-          </div>
-        </div>
-        <div className='flex justify-center mt-8'>
+      <div className='fixed inset-0 flex flex-col'>
+        {/* Header - minimal fixed height */}
+        <div className='flex justify-between items-center h-8 px-2 shrink-0'>
           <img
             src='logo/notsoAI-logoLine.svg'
             alt='NotSoAI Logo'
-            className='h-5 w-auto'
+            className='h-4 w-auto'
           />
+          <LanguageSelector />
+        </div>
+
+        {/* Progress bar - minimal fixed height */}
+        <div className='w-full h-1 bg-gray-200 relative shrink-0'>
+          <div
+            className='absolute left-0 top-0 h-full bg-green-600 transition-all duration-300 ease-out'
+            style={{ width: '100%' }}
+          />
+        </div>
+
+        {/* Main content container */}
+        <div className='flex flex-col px-4 py-4 grow overflow-y-auto'>
+          <div className='text-center mb-6'>
+            <h1 className='text-xl font-bold'>{t.finalQuestions}</h1>
+          </div>
+          
+          <div className='max-w-md mx-auto w-full space-y-4'>
+            <div>
+              <label className='block text-sm font-medium text-gray-700 mb-1'>
+                {t.age} <span className='text-red-500'>*</span>
+              </label>
+              <input
+                type='number'
+                min='12'
+                max='99'
+                value={form.age}
+                onChange={(e) => {
+                  setForm({ ...form, age: e.target.value })
+                  setFormErrors({ ...formErrors, age: null })
+                }}
+                className={`w-full p-2 border rounded ${formErrors.age ? 'border-red-500' : ''}`}
+              />
+              {formErrors.age && (
+                <p className='mt-1 text-sm text-red-600'>{formErrors.age}</p>
+              )}
+            </div>
+            <div>
+              <label className='block text-sm font-medium text-gray-700 mb-1'>
+                {t.gender} <span className='text-red-500'>*</span>
+              </label>
+              <select
+                value={form.gender}
+                onChange={(e) => {
+                  setForm({ ...form, gender: e.target.value })
+                  setFormErrors({ ...formErrors, gender: null })
+                }}
+                className={`w-full p-2 border rounded ${formErrors.gender ? 'border-red-500' : ''}`}
+              >
+                <option value=''>{t.genderOptions.placeholder}</option>
+                <option value='male'>{t.genderOptions.male}</option>
+                <option value='female'>{t.genderOptions.female}</option>
+                <option value='other'>{t.genderOptions.other}</option>
+              </select>
+              {formErrors.gender && (
+                <p className='mt-1 text-sm text-red-600'>{formErrors.gender}</p>
+              )}
+            </div>
+            <div>
+              <label className='block text-sm font-medium text-gray-700 mb-1'>
+                {t.education} <span className='text-red-500'>*</span>
+              </label>
+              <select
+                value={form.education}
+                onChange={(e) => {
+                  setForm({ ...form, education: e.target.value })
+                  setFormErrors({ ...formErrors, education: null })
+                }}
+                className={`w-full p-2 border rounded ${formErrors.education ? 'border-red-500' : ''}`}
+              >
+                <option value=''>{t.educationOptions.placeholder}</option>
+                <option value='primary'>{t.educationOptions.primary}</option>
+                <option value='vmbo'>{t.educationOptions.vmbo}</option>
+                <option value='havo'>{t.educationOptions.havo}</option>
+                <option value='vwo'>{t.educationOptions.vwo}</option>
+                <option value='hbo'>{t.educationOptions.hbo}</option>
+                <option value='uni'>{t.educationOptions.uni}</option>
+              </select>
+              {formErrors.education && (
+                <p className='mt-1 text-sm text-red-600'>{formErrors.education}</p>
+              )}
+            </div>
+
+            {/* Prize Giveaway Section */}
+            <div className='mt-8 pt-6 border-t border-gray-200'>
+              <div className='bg-blue-50 p-4 rounded-lg mb-4'>
+                <h2 className='text-lg font-semibold text-blue-800 mb-2'>🎁 Win een gratis mascotte!</h2>
+                <p className='text-sm text-blue-700 mb-4'>
+                  Deel je idee voor een coole mascotte en maak kans op een gratis exemplaar! Laat hieronder je gegevens achter.
+                </p>
+              </div>
+              
+              <div className='space-y-4'>
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>
+                    Je naam
+                  </label>
+                  <input
+                    type='text'
+                    value={form.prizeName}
+                    onChange={(e) => setForm({ ...form, prizeName: e.target.value })}
+                    className='w-full p-2 border rounded'
+                    placeholder='Vul je naam in'
+                  />
+                </div>
+                
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>
+                    Je email
+                  </label>
+                  <input
+                    type='email'
+                    value={form.prizeEmail}
+                    onChange={(e) => {
+                      setForm({ ...form, prizeEmail: e.target.value })
+                      setFormErrors({ ...formErrors, prizeEmail: null })
+                    }}
+                    className={`w-full p-2 border rounded ${formErrors.prizeEmail ? 'border-red-500' : ''}`}
+                    placeholder='Vul je email in'
+                  />
+                  {formErrors.prizeEmail && (
+                    <p className='mt-1 text-sm text-red-600'>{formErrors.prizeEmail}</p>
+                  )}
+                </div>
+                
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>
+                    Jouw mascotte idee
+                  </label>
+                  <textarea
+                    value={form.mascotIdea}
+                    onChange={(e) => setForm({ ...form, mascotIdea: e.target.value })}
+                    className='w-full p-2 border rounded'
+                    rows='3'
+                    placeholder='Beschrijf je idee voor een coole mascotte...'
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className='pt-4'>
+              <button
+                onClick={submit}
+                disabled={!form.age || !form.gender || !form.education}
+                className='w-full bg-green-600 text-white py-3 px-4 rounded hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed'
+              >
+                {t.submitButton}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     )

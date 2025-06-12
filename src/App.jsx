@@ -83,6 +83,7 @@ export default function App () {
     mascotIdea: ''
   })
   const [submitted, setSubmitted] = useState(false)
+  const [redirectCountdown, setRedirectCountdown] = useState(5)
   const [lang, setLang] = useState(() => window.localStorage.getItem('lang') || 'nl')
   const [formErrors, setFormErrors] = useState({})
 
@@ -90,6 +91,18 @@ export default function App () {
   React.useEffect(() => {
     window.localStorage.setItem('lang', lang)
   }, [lang])
+
+  // Handle redirect countdown after submission
+  React.useEffect(() => {
+    if (submitted && redirectCountdown > 0) {
+      const timer = setTimeout(() => {
+        setRedirectCountdown(redirectCountdown - 1)
+      }, 1000)
+      return () => clearTimeout(timer)
+    } else if (submitted && redirectCountdown === 0) {
+      window.location.href = 'https://notso.ai'
+    }
+  }, [submitted, redirectCountdown])
 
   const t = translations[lang]
 
@@ -266,6 +279,9 @@ export default function App () {
         </div>
         <div className='text-center'>
           <div className='text-gray-600'>{t.thanks}</div>
+          <div className='text-sm text-gray-500 mt-4'>
+            {t.redirecting.replace('{seconds}', redirectCountdown)}
+          </div>
         </div>
         <div className='flex justify-center mt-8'>
           <img

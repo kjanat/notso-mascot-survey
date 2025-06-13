@@ -8,8 +8,6 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: true
   },
-  // Ensure environment variables are loaded
   envPrefix: 'VITE_',
-  // Configure base URL for GitHub Pages
   base: './'
 })

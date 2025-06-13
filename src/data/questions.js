@@ -1,5 +1,11 @@
 export const CHARACTER_TYPES = ['man', 'woman', 'animal', 'blob', 'robot']
-export const STYLE_TYPES = ['toy', 'figurative', 'cartoony', 'pixar', 'realistic']
+export const STYLE_TYPES = [
+  'toy',
+  'figurative',
+  'cartoony',
+  'pixar',
+  'realistic'
+]
 
 export const TOPICS = [
   'friend_type',

@@ -24,10 +24,10 @@ const CaptchaVerification = ({ onVerify, prompt }) => {
   return (
     <div className='flex flex-col items-center justify-center p-4'>
       <h2 className='text-xl mb-4'>{prompt}</h2>
-      <div 
-        role="region" 
-        aria-label="CAPTCHA verification"
-        className="captcha-container"
+      <div
+        role='region'
+        aria-label='CAPTCHA verification'
+        className='captcha-container'
       >
         <ReCAPTCHA
           sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}

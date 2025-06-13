@@ -7,10 +7,7 @@ import {
   useSensor,
   useSensors
 } from '@dnd-kit/core'
-import {
-  SortableContext,
-  rectSortingStrategy
-} from '@dnd-kit/sortable'
+import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable'
 import { QUESTIONS } from './data/questions'
 import SortableMascot from './components/SortableMascot'
 import CaptchaVerification from './components/CaptchaVerification'
@@ -47,14 +44,16 @@ const validateForm = (form) => {
 
 export const validateMascotRankings = (answers, questions) => {
   // Check if we have answers for all questions
-  const missingQuestions = questions.filter(q => !answers[q.id] || answers[q.id].length !== 5)
+  const missingQuestions = questions.filter(
+    (q) => !answers[q.id] || answers[q.id].length !== 5
+  )
   if (missingQuestions.length > 0) {
     return false
   }
 
   // Check if each question has valid rankings (all mascots ranked)
   for (const [qid, ranking] of Object.entries(answers)) {
-    const question = questions.find(q => q.id === qid)
+    const question = questions.find((q) => q.id === qid)
     if (!question) continue
 
     // Check if we have exactly 5 unique rankings
@@ -74,9 +73,9 @@ export default function App () {
   const [step, setStep] = useState('intro')
   const [answers, setAnswers] = useState({})
   const [order, setOrder] = useState([])
-  const [form, setForm] = useState({ 
-    age: '', 
-    gender: '', 
+  const [form, setForm] = useState({
+    age: '',
+    gender: '',
     education: '',
     prizeName: '',
     prizeEmail: '',
@@ -84,7 +83,9 @@ export default function App () {
   })
   const [submitted, setSubmitted] = useState(false)
   const [redirectCountdown, setRedirectCountdown] = useState(5)
-  const [lang, setLang] = useState(() => window.localStorage.getItem('lang') || 'nl')
+  const [lang, setLang] = useState(
+    () => window.localStorage.getItem('lang') || 'nl'
+  )
   const [formErrors, setFormErrors] = useState({})
 
   // Update localStorage when language changes
@@ -147,16 +148,17 @@ export default function App () {
     if (typeof step === 'number') {
       const qid = QUESTIONS[step].id
       const questionOptions = QUESTIONS[step].options
-      
+
       // Check if stored answer contains valid files for this question
       const storedAnswer = answers[qid]
       if (storedAnswer) {
         // Verify that stored answer contains exactly the files for this question
         const storedSet = new Set(storedAnswer)
         const questionSet = new Set(questionOptions)
-        const isValidAnswer = storedSet.size === questionSet.size && 
-                             [...storedSet].every(file => questionSet.has(file))
-        
+        const isValidAnswer =
+          storedSet.size === questionSet.size &&
+          [...storedSet].every((file) => questionSet.has(file))
+
         if (isValidAnswer) {
           setOrder(storedAnswer)
         } else {
@@ -170,7 +172,7 @@ export default function App () {
       // Prefetch images for the next question
       if (step + 1 < QUESTIONS.length) {
         const nextQ = QUESTIONS[step + 1]
-        nextQ.options.forEach(file => {
+        nextQ.options.forEach((file) => {
           const img = new window.Image()
           img.src = `mascots/${nextQ.id}/${file}`
         })
@@ -233,12 +235,17 @@ export default function App () {
       }
 
       // Format the answers into individual columns
-      const formattedAnswers = Object.entries(answers).reduce((acc, [qid, arr]) => {
-        const orig = QUESTIONS.find((q) => q.id === qid).options
-        const rankString = arr.map(opt => (orig.indexOf(opt) + 1).toString()).join('')
-        acc[qid] = rankString
-        return acc
-      }, {})
+      const formattedAnswers = Object.entries(answers).reduce(
+        (acc, [qid, arr]) => {
+          const orig = QUESTIONS.find((q) => q.id === qid).options
+          const rankString = arr
+            .map((opt) => (orig.indexOf(opt) + 1).toString())
+            .join('')
+          acc[qid] = rankString
+          return acc
+        },
+        {}
+      )
 
       // Create the data object with all fields
       const submissionData = {
@@ -344,7 +351,10 @@ export default function App () {
         </div>
         <div className='text-center'>
           <h1 className='text-3xl font-bold'>{t.title}</h1>
-          <CaptchaVerification onVerify={setIsVerified} prompt={t.captchaPrompt} />
+          <CaptchaVerification
+            onVerify={setIsVerified}
+            prompt={t.captchaPrompt}
+          />
         </div>
         <div className='flex justify-center mt-8'>
           <img
@@ -435,7 +445,7 @@ export default function App () {
           <div className='text-center mb-6'>
             <h1 className='text-xl font-bold'>{t.finalQuestions}</h1>
           </div>
-          
+
           <div className='max-w-md mx-auto w-full space-y-4'>
             <div>
               <label className='block text-sm font-medium text-gray-700 mb-1'>
@@ -498,19 +508,23 @@ export default function App () {
                 <option value='uni'>{t.educationOptions.uni}</option>
               </select>
               {formErrors.education && (
-                <p className='mt-1 text-sm text-red-600'>{formErrors.education}</p>
+                <p className='mt-1 text-sm text-red-600'>
+                  {formErrors.education}
+                </p>
               )}
             </div>
 
             {/* Prize Giveaway Section */}
             <div className='mt-8 pt-6 border-t border-gray-200'>
               <div className='bg-blue-50 p-4 rounded-lg mb-4'>
-                <h2 className='text-lg font-semibold text-blue-800 mb-2'>{t.prizeTitle}</h2>
+                <h2 className='text-lg font-semibold text-blue-800 mb-2'>
+                  {t.prizeTitle}
+                </h2>
                 <p className='text-sm text-blue-700 mb-4'>
                   {t.prizeDescription}
                 </p>
               </div>
-              
+
               <div className='space-y-4'>
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-1'>
@@ -519,12 +533,13 @@ export default function App () {
                   <input
                     type='text'
                     value={form.prizeName}
-                    onChange={(e) => setForm({ ...form, prizeName: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, prizeName: e.target.value })}
                     className='w-full p-2 border rounded'
                     placeholder={t.prizeNamePlaceholder}
                   />
                 </div>
-                
+
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-1'>
                     {t.prizeEmail}
@@ -540,17 +555,20 @@ export default function App () {
                     placeholder={t.prizeEmailPlaceholder}
                   />
                   {formErrors.prizeEmail && (
-                    <p className='mt-1 text-sm text-red-600'>{formErrors.prizeEmail}</p>
+                    <p className='mt-1 text-sm text-red-600'>
+                      {formErrors.prizeEmail}
+                    </p>
                   )}
                 </div>
-                
+
                 <div>
                   <label className='block text-sm font-medium text-gray-700 mb-1'>
                     {t.prizeIdea}
                   </label>
                   <textarea
                     value={form.mascotIdea}
-                    onChange={(e) => setForm({ ...form, mascotIdea: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, mascotIdea: e.target.value })}
                     className='w-full p-2 border rounded'
                     rows='3'
                     placeholder={t.prizeIdeaPlaceholder}
@@ -607,7 +625,9 @@ export default function App () {
       {/* Main content container - exact height for remaining space */}
       <div className='flex flex-col px-2 pb-2 grow'>
         <div className='flex justify-between items-center shrink-0 mt-2 mb-1'>
-          <h1 className='text-base md:text-lg font-bold leading-tight'>{t.questions[q.id]}</h1>
+          <h1 className='text-base md:text-lg font-bold leading-tight'>
+            {t.questions[q.id]}
+          </h1>
           <div className='flex gap-2'>
             <button
               onClick={back}
@@ -620,7 +640,9 @@ export default function App () {
               onClick={next}
               className='bg-green-600 text-white px-2 py-1 text-xs rounded hover:bg-green-700'
             >
-              {step < QUESTIONS.length - 1 ? t.nextButton : t.backgroundQuestions}
+              {step < QUESTIONS.length - 1
+                ? t.nextButton
+                : t.backgroundQuestions}
             </button>
           </div>
         </div>
@@ -629,15 +651,10 @@ export default function App () {
         </p>
 
         {/* Cards container - fills remaining space */}
-        <DndContext
-          sensors={sensors}
-          onDragEnd={handleDragEnd}
-        >
-          <SortableContext
-            items={order}
-            strategy={rectSortingStrategy}
-          >
-            <div className='
+        <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+          <SortableContext items={order} strategy={rectSortingStrategy}>
+            <div
+              className='
               grid gap-1.5
               grid-cols-1
               h-[calc(100%-0.5rem)]

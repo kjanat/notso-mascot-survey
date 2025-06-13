@@ -24,8 +24,10 @@ afterEach(() => {
 
 async function renderWithEnv (env) {
   vi.resetModules()
-  Object.assign(process.env, env)
-  ;({ default: EnvironmentCheck } = await import('../components/EnvironmentCheck'))
+  Object.assign(process.env, env);
+  ({ default: EnvironmentCheck } = await import(
+    '../components/EnvironmentCheck'
+  ))
   act(() => {
     createRoot(container).render(<EnvironmentCheck />)
   })

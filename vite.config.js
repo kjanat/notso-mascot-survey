@@ -3,10 +3,7 @@ import react from '@vitejs/plugin-react'
 import envCompatible from 'vite-plugin-env-compatible'
 
 export default defineConfig({
-  plugins: [
-    react(),
-    envCompatible()
-  ],
+  plugins: [react(), envCompatible()],
   build: {
     outDir: 'dist',
     sourcemap: true

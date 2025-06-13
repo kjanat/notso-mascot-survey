@@ -1,7 +1,5 @@
 import { useEffect, useRef } from 'react'
 import { isEnvVariableTrue } from '../utils/env'
-const disableSubmission = isEnvVariableTrue(import.meta.env.VITE_DISABLE_SUBMISSION_CHECK)
-const disableCaptcha = isEnvVariableTrue(import.meta.env.VITE_DISABLE_CAPTCHA)
 
 const EnvironmentCheck = () => {
   const hasLogged = useRef(false)
@@ -16,9 +14,10 @@ const EnvironmentCheck = () => {
 
     const missingVars = requiredVars
       .filter(({ key }) => !import.meta.env[key])
-      .map(v => v.name)
+      .map((v) => v.name)
 
-    const disableSubmission = import.meta.env.VITE_DISABLE_SUBMISSION_CHECK === 'true'
+    const disableSubmission =
+      import.meta.env.VITE_DISABLE_SUBMISSION_CHECK === 'true'
     const disableCaptcha = import.meta.env.VITE_DISABLE_CAPTCHA === 'true'
 
     const disabledFeatures = []
@@ -26,11 +25,15 @@ const EnvironmentCheck = () => {
     if (disableCaptcha) disabledFeatures.push('CAPTCHA')
 
     if (missingVars.length > 0) {
-      console.warn(`EnvironmentCheck: missing variables -> ${missingVars.join(', ')}`)
+      console.warn(
+        `EnvironmentCheck: missing variables -> ${missingVars.join(', ')}`
+      )
     }
 
     if (disabledFeatures.length > 0) {
-      console.info(`EnvironmentCheck: disabled features -> ${disabledFeatures.join(', ')}`)
+      console.info(
+        `EnvironmentCheck: disabled features -> ${disabledFeatures.join(', ')}`
+      )
     }
 
     if (missingVars.length > 0 || disabledFeatures.length > 0) {

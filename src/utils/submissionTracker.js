@@ -16,19 +16,25 @@ const getFingerprint = async () => {
 // Check if user has submitted
 export const hasUserSubmitted = async () => {
   // In development mode with submission check disabled, always return false
-  const disableCheck = isEnvVariableTrue(import.meta.env.VITE_DISABLE_SUBMISSION_CHECK)
+  const disableCheck = isEnvVariableTrue(
+    import.meta.env.VITE_DISABLE_SUBMISSION_CHECK
+  )
   if (disableCheck) {
     return false
   }
   const fingerprint = await getFingerprint()
-  const submissions = JSON.parse(window.localStorage.getItem('surveySubmissions') || '{}')
+  const submissions = JSON.parse(
+    window.localStorage.getItem('surveySubmissions') || '{}'
+  )
   return !!submissions[fingerprint]
 }
 
 // Mark survey as submitted
 export const markAsSubmitted = async () => {
   const fingerprint = await getFingerprint()
-  const submissions = JSON.parse(window.localStorage.getItem('surveySubmissions') || '{}')
+  const submissions = JSON.parse(
+    window.localStorage.getItem('surveySubmissions') || '{}'
+  )
   submissions[fingerprint] = {
     timestamp: new Date().toISOString(),
     userAgent: navigator.userAgent

@@ -52,7 +52,8 @@ export const translations = {
     submissionError:
       'Er is een fout opgetreden bij het versturen van de gegevens. Probeer het opnieuw.',
     prizeTitle: '🎁 Win een gratis mascotte!',
-    prizeDescription: 'Deel je idee voor een coole mascotte en maak kans op een gratis exemplaar! Laat hieronder je gegevens achter.',
+    prizeDescription:
+      'Deel je idee voor een coole mascotte en maak kans op een gratis exemplaar! Laat hieronder je gegevens achter.',
     prizeName: 'Je naam',
     prizeEmail: 'Je email',
     prizeIdea: 'Jouw mascotte idee',
@@ -130,12 +131,11 @@ export const translations = {
     noMultiple: 'It is not possible to complete the survey multiple times.',
     thanks: 'Thank you for participating! 🎉',
     redirecting: 'Redirecting you to notso.ai in {seconds} seconds...',
-    rankingsIncomplete:
-      'Please rank all mascots before submitting the survey.',
-    submissionError:
-      'An error occurred while submitting. Please try again.',
+    rankingsIncomplete: 'Please rank all mascots before submitting the survey.',
+    submissionError: 'An error occurred while submitting. Please try again.',
     prizeTitle: '🎁 Win a free mascot!',
-    prizeDescription: 'Share your idea for a cool mascot and win a free copy! Leave your details below.',
+    prizeDescription:
+      'Share your idea for a cool mascot and win a free copy! Leave your details below.',
     prizeName: 'Your name',
     prizeEmail: 'Your email',
     prizeIdea: 'Your mascot idea',

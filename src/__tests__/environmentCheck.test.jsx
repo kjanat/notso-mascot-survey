@@ -1,7 +1,6 @@
 import React, { act } from 'react'
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { createRoot } from 'react-dom/client'
-let EnvironmentCheck
 
 let container
 let infoSpy
@@ -23,12 +22,26 @@ afterEach(() => {
 
 async function renderWithEnv (env) {
   vi.resetModules()
-  Object.assign(process.env, env)
-  ;({ default: EnvironmentCheck } = await import(
+  
+  // Mock import.meta.env instead of process.env
+  const originalEnv = import.meta.env
+  Object.defineProperty(import.meta, 'env', {
+    value: { ...originalEnv, ...env },
+    writable: true
+  })
+  
+  const { default: EnvironmentCheck } = await import(
     '../components/EnvironmentCheck'
-  ))
+  )
+  
   act(() => {
     createRoot(container).render(<EnvironmentCheck />)
+  })
+  
+  // Restore original env
+  Object.defineProperty(import.meta, 'env', {
+    value: originalEnv,
+    writable: true
   })
 }
 
@@ -69,5 +82,29 @@ describe('EnvironmentCheck', () => {
     expect(output).toContain('submission check')
     expect(output).toContain('CAPTCHA')
     expect(warnSpy).not.toHaveBeenCalled()
+  })
+
+  it('logs warning when required environment variables are missing', async () => {
+    // Use vi.stubEnv to properly mock Vite environment variables
+    vi.stubEnv('VITE_SHEET_DB_API', undefined)
+    vi.stubEnv('VITE_RECAPTCHA_SITE_KEY', undefined)
+    vi.stubEnv('VITE_DISABLE_SUBMISSION_CHECK', 'false')
+    vi.stubEnv('VITE_DISABLE_CAPTCHA', 'false')
+
+    vi.resetModules()
+    const { default: EnvironmentCheck } = await import(
+      '../components/EnvironmentCheck'
+    )
+
+    act(() => {
+      createRoot(container).render(<EnvironmentCheck />)
+    })
+
+    // Check if warn was called
+    expect(warnSpy).toHaveBeenCalled()
+    const warnCalls = warnSpy.mock.calls.flat().join(' ')
+    expect(warnCalls).toContain('missing variables')
+
+    vi.unstubAllEnvs()
   })
 })

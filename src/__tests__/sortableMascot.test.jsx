@@ -4,16 +4,20 @@ import { createRoot } from 'react-dom/client'
 import SortableMascot from '../components/SortableMascot'
 import { render, screen, fireEvent } from '@testing-library/react'
 
-vi.mock('@dnd-kit/sortable', () => ({
-  useSortable: () => ({
+vi.mock('@dnd-kit/sortable', () => {
+  const mockUseSortable = vi.fn(() => ({
     attributes: {},
     listeners: {},
     setNodeRef: () => {},
     transform: null,
     transition: null,
     isDragging: false
-  })
-}))
+  }))
+
+  return {
+    useSortable: mockUseSortable
+  }
+})
 
 vi.mock('@dnd-kit/utilities', () => ({
   CSS: {
@@ -59,5 +63,31 @@ describe('SortableMascot', () => {
     expect(img.getAttribute('src')).toBe('invalid.webp')
     fireEvent.error(img)
     expect(img.getAttribute('src')).toBe('mascots/missing.webp')
+  })
+
+  it('applies dragging styles when isDragging is true', async () => {
+    // Import the mocked module
+    const sortableModule = await import('@dnd-kit/sortable')
+    const mockUseSortable = vi.mocked(sortableModule.useSortable)
+
+    // Configure mock for this test
+    mockUseSortable.mockReturnValueOnce({
+      attributes: {},
+      listeners: {},
+      setNodeRef: () => {},
+      transform: { x: 10, y: 5, scaleX: 1, scaleY: 1 },
+      transition: 'transform 200ms',
+      isDragging: true
+    })
+
+    act(() => {
+      createRoot(container).render(
+        <SortableMascot id='test-mascot' src='test.png' rank={1} />
+      )
+    })
+
+    const dragElement = container.querySelector('div')
+    expect(dragElement.className).toContain('shadow-lg')
+    expect(dragElement.className).not.toContain('shadow-sm')
   })
 })

@@ -7,6 +7,12 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./src/test-setup.js'],
     globals: true,
+    reporters: process.env.GITHUB_ACTIONS ? ['verbose', 'github-actions', 'json', 'html', 'lcov'] : ['verbose', 'html'],
+    outputFile: {
+      json: 'coverage/coverage.json',
+      html: 'coverage/coverage.html',
+      lcov: 'coverage/lcov.info'
+    },
     coverage: {
       exclude: [
         // Config files

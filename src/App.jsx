@@ -146,7 +146,26 @@ export default function App () {
   useEffect(() => {
     if (typeof step === 'number') {
       const qid = QUESTIONS[step].id
-      setOrder(answers[qid] ?? QUESTIONS[step].options)
+      const questionOptions = QUESTIONS[step].options
+      
+      // Check if stored answer contains valid files for this question
+      const storedAnswer = answers[qid]
+      if (storedAnswer) {
+        // Verify that stored answer contains exactly the files for this question
+        const storedSet = new Set(storedAnswer)
+        const questionSet = new Set(questionOptions)
+        const isValidAnswer = storedSet.size === questionSet.size && 
+                             [...storedSet].every(file => questionSet.has(file))
+        
+        if (isValidAnswer) {
+          setOrder(storedAnswer)
+        } else {
+          // Stored answer is invalid, use default order
+          setOrder(questionOptions)
+        }
+      } else {
+        setOrder(questionOptions)
+      }
 
       // Prefetch images for the next question
       if (step + 1 < QUESTIONS.length) {
@@ -157,7 +176,7 @@ export default function App () {
         })
       }
     }
-  }, [step])
+  }, [step, answers])
 
   const sensors = useSensors(
     useSensor(PointerSensor, {

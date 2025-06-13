@@ -1,1 +1,1 @@
-export const isEnvVariableTrue = (value) => String(value) === 'true'
+export const isEnvVariableTrue = (value) => value === 'true'

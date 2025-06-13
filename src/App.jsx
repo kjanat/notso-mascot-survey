@@ -657,6 +657,7 @@ export default function App () {
         </p>
 
         {/* Cards container - fills remaining space */}
+        {/* prettier-ignore */}
         <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
           <SortableContext items={order} strategy={rectSortingStrategy}>
             <div

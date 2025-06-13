@@ -22,11 +22,6 @@ updates:
     versioning-strategy: auto
     # Set pull request limits
     open-pull-requests-limit: 10
-    groups:
-      # Group all updates together
-      all:
-        patterns:
-          - "*"
     
   # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
@@ -47,8 +42,3 @@ updates:
           - "*"
     # Set pull request limits
     open-pull-requests-limit: 10
-    groups:
-      # Group all updates together
-      all:
-        patterns:
-          - "*"

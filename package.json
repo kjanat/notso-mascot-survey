@@ -27,11 +27,13 @@
     "@vitejs/plugin-react": "^4.2.0",
     "autoprefixer": "^10.4.17",
     "jsdom": "^26.1.0",
-    "prettier": "*",
     "postcss": "^8.4.31",
+    "prettier": "*",
+    "prettier-config-standard": "^7.0.0",
     "standard": "*",
     "tailwindcss": "^3.4.2",
     "vite": "^5.2.0",
     "vitest": "^1.4.0"
-  }
+  },
+  "prettier": "prettier-config-standard"
 }

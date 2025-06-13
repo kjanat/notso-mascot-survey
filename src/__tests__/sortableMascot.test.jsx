@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { act } from 'react'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { createRoot } from 'react-dom/client'
-import { act } from 'react-dom/test-utils'
 import SortableMascot from '../components/SortableMascot'
 import { render, screen, fireEvent } from '@testing-library/react'
 
@@ -49,7 +48,7 @@ describe('SortableMascot', () => {
       img.dispatchEvent(new Event('error'))
     })
 
-    expect(img.getAttribute('src')).toBe('mascots/missing.png')
+    expect(img.getAttribute('src')).toBe('mascots/missing.webp')
   })
 
   it('renders with fallback image on error', () => {

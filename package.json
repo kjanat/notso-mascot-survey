@@ -11,7 +11,6 @@
     "test:coverage:html": "vitest run --coverage --reporter html",
     "test:coverage:lcov": "vitest run --coverage --reporter lcov",
     "test:coverage:json": "vitest run --coverage --reporter json",
-    "test:coverage:clover": "vitest run --coverage --reporter clover",
     "format": "pnpm format:prettier && pnpm format:standard",
     "format:prettier": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,md}'",
     "format:standard": "standard --fix",

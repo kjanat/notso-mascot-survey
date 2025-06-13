@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react'
-import { isEnvVariableTrue } from '../utils/env'
 
 const EnvironmentCheck = () => {
   const hasLogged = useRef(false)

@@ -594,10 +594,11 @@ export default function App () {
   }
 
   const q = QUESTIONS[step]
-  
+
   // Check if current order belongs to current question to prevent race conditions
-  const orderBelongsToCurrentQuestion = order.length > 0 && order.every(file => file.startsWith(q.id))
-  
+  const orderBelongsToCurrentQuestion =
+    order.length > 0 && order.every((file) => file.startsWith(q.id))
+
   return (
     <div className='fixed inset-0 flex flex-col'>
       {/* Header - minimal fixed height */}
@@ -667,19 +668,23 @@ export default function App () {
               landscape:grid-cols-5 landscape:grid-rows-1
             '
             >
-              {orderBelongsToCurrentQuestion ? order.map((file, idx) => (
-                <SortableMascot
-                  key={file}
-                  id={file}
-                  rank={idx + 1}
-                  src={`mascots/${q.id}/${file}`}
-                />
-              )) : (
-                // Show placeholder while order is being updated
-                <div className="col-span-full flex items-center justify-center text-gray-500">
-                  Loading...
-                </div>
-              )}
+              {orderBelongsToCurrentQuestion
+                ? (
+                    order.map((file, idx) => (
+                      <SortableMascot
+                        key={file}
+                        id={file}
+                        rank={idx + 1}
+                        src={`mascots/${q.id}/${file}`}
+                      />
+                    ))
+                  )
+                : (
+              // Show placeholder while order is being updated
+                  <div className='col-span-full flex items-center justify-center text-gray-500'>
+                    Loading...
+                  </div>
+                  )}
             </div>
           </SortableContext>
         </DndContext>

@@ -42,7 +42,7 @@
     "prettier-config-standard": "^7.0.0",
     "standard": "^17.1.2",
     "tailwindcss": "~4.1.10",
-    "vite": "^6.3.5",
+    "vite": "^6.4.1",
     "vitest": "^3.2.3"
   },
   "prettier": "prettier-config-standard"
